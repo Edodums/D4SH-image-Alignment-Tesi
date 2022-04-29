@@ -191,23 +191,52 @@
   nameinlink                  % inserisce i link nei riferimenti
 ]{cleveref}                     % permette di usare riferimenti migliori dei \ref e dei varioref
 
+\newcommand{\euler}{e}
+
+\usepackage{tabularx}
+\usepackage{listings}
+
+\lstset{
+  frame=tblr,
+  tabsize = 4, %% set tab space width
+  showstringspaces = false, %% prevent space marking in strings, string is defined as the text that is generally printed directly to the console
+  numbers = left, %% display line numbers on the left
+  commentstyle = \color{green}, %% set comment color
+  keywordstyle = \color{blue}, %% set keyword color
+  stringstyle = \color{red}, %% set string color
+  rulecolor = \color{black}, %% set frame color to avoid being affected by text color
+  basicstyle = \small \ttfamily, %% set listing font and size
+  breaklines = true, %% enable line breaking
+  numberstyle = \tiny,
+}
+
+\newcommand\blankpage{%
+    \null
+    \thispagestyle{empty}%
+    \addtocounter{page}{-1}%
+    \newpage}
+
 \begin{document}
 
   \frontmatter{}
   \pagenumbering{Roman}
   \pagestyle{empty}
   \input{src/1-frontmatter/frontespizio.tex}
+  \blankpage
   \input{src/1-frontmatter/keywords.tex}
-  \input{src/1-frontmatter/dedica.tex}
+  \blankpage
+  % \input{src/1-frontmatter/dedica.tex}
   \input{src/1-frontmatter/abstract.tex}
   \tableofcontents
 
   \mainmatter{}
   \pagenumbering{arabic}
   \pagestyle{headings}
-  Minimo documento
-  \appendix
-  \input{src/2-mainmatter/appendices.tex}
+
+  \input{src/2-mainmatter/introduzione.tex}
+  \input{src/2-mainmatter/chapter-1.tex}
+  \input{src/2-mainmatter/chapter-2.tex}
+  \input{src/2-mainmatter/chapter-3.tex}
 
   \backmatter{}
   \input{src/3-backmatter/bibliografia.tex}

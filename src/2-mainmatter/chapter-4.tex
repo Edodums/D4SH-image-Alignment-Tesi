@@ -1,0 +1,169 @@
+\chapter{Descrizione dei competitors}
+\label{chap:competitors}
+
+\section{Lista Tool Freely Available per Stitching Multimodale}
+\frenchspacing
+Negli ultimi anni sono stati sviluppati vari tool per fare allineamento multi-modale di immagini. La maggior parte di essi richiede iterazione con l’utente che spesso deve definire manualmente i punti di riferimento nelle varie immagini. Tuttavia esistono anche alcune soluzioni completamente automatiche. Riportiamo qui di seguito una breve descrizione dei principali tool oggi disponibili.
+
+\subsection{Elastic Alignment and Montage}
+\textit{``Elastic Alignment and Montage''} sono due plugin incorporati a loro volta nel software \textit{``TrackEM2''}. Vengono sfruttati quando si hanno larghe serie di sezioni multi-tile attraverso il menu di allineamento. Il primo allinea serie di sezioni deformate, mentre il secondo crea mosaici da immagini sovrapposte le quali hanno una deformazione non lineare. Le immagini sono deformate in modo da ottenere delle corrispondenti sovrapposizioni ottime. Ogni singola deformazione è calcolata in modo da il montaggio finale sia deformato al minimo. Entrambi i plugin lavorano esclusivamente con stacks di immagini.
+
+\subsection{TrackEM2 Folder Watcher}
+\textit{TrackEM2} lavora sia con immagini 2D sia 3D. Permette di estrarre misurazioni e creare allineamenti multi-modali identificando manualmente le aree di sovrapposizione per ogni immagine appartenente allo stack. È possibile anche ordinare le stesse sezioni create raggruppandole in alberi gerarchici, ed effettuare annotazioni testuali.
+Sfrutta sia i plugin citati in precedenza per l'allineamento sia \textit{SIFT}.
+
+\subsection{Moving Least Squares}
+\textit{``Moving Least Squares''} sfrutta il metodo chiamato spostamento dei minimi quadrati. Le tecniche implementate per trasformazioni può essere utile solo deformare un'immagine singola dati una serie di punti di riferimento. Non si occupa di allineamento tra immagini. Le trasformazioni, in contrapposizione a \textit{``bUnwarpJ''} che utilizza deformazioni elastiche, sono da intendere come rigide. Gli autori del plugin intendevano dimostrare che fosse possibile creare deformazioni usando trasformazioni geometricamente similari, cioè usando trasformazioni rigide insieme a ridimensionamenti isometrici, evitando la minimizzazione non-lineare.
+
+\subsection{Linear Stack Alignment with SIFT}
+\textit{``Linear Stack Alignment with SIFT''} sfrutta \textit{SIFT} e \textit{RANSAC} (\textit{Random Sample Consensus}) per identificare automaticamente punti di riferimento tra diverse immagini e allineare le stesse senza richiedere l'intervento dell'utente. Viene utilizzata una trasformazione rigida per il secondo di due tagli che mappa le corrispondenze del secondo in maniera ottima a quelle del primo.
+
+\subsection{Register Virtual Stack Slices}
+\textit{``Register Virtual Stack Slices''} prende una sequenza di immagini in input e restituisce in output l'allineamento finale registrato in un'unica immagine di riferimento. L'immagine identificata come riferimento intatta non è modificabile. È scale invariant poichè utilizza modelli estratti automaticamente via \textit{SIFT}.
+
+\subsection{Image Stitching}
+\textit{``Image Stitching''} richiede come input una griglia quadrata di immagini. Utilizza il Teorema di Fourier per calcolare tutte le possibili traslazioni tra tutte le immagini messe in input, in una volta. In output fornisce la miglior sovrapposizione in termini di misure di cross correlazione. È multi-modale poiché è capace di allineare un numero arbitrario di canali di natura differente. Per rimuove differenze di luminosità tra i bordi delle porzioni della griglia applica una correzione d'intensità non lineare. Per fare stitching tra due immagini permette di usare il \textit{``Pairwise Stitching''}, dove si forniscono immagini in cui si sono definiti dei punti d'interesse e per calcolare le matrici di correlazione di fase.
+Con la modalità \textit{``Grid/Collection Stitching''} si sistemano le immagini in griglia rispetto a tutte le possibili orientazioni ( \textit{e.g.} riga per riga, colonna per colonna ).
+
+\subsection{BigSticher}
+\textit{``BigSticher''} è il successore di \textit{Image Stitching}, e mantiene le stesse funzionalità. È size invariant, può processare e mostrare immagini indipendentemente dalla loro grandezza. Al momento un'ottimizzazione globale è capace di allineare dataset connessi in modo sparso, dove il contenuto dell'immagine è separata da aree dove lo sfondo è quasi sempre costante. È un software ancora in versione di beta test, quindi non è da considerarsi completo. Tra le altre feature che fornisce vi sono:
+\begin{itemize}
+    \item la registrazione multi-view dove si possono importare immagini provenienti il cui orientamento è diverso;
+    \item l'elaborazione dei dati come la fusione o la deconvoluzione delle immagini allineate, anche per risoluzioni ridotte dell'immagine prodotta sia per selezioni di parte di essa;
+    \item scelta della miglior direzione della luce per ogni immagine;
+    \item supporto di griglie non regolari a cui ad esempio mancano delle parti.
+\end{itemize}
+
+\subsection{MIST}
+\textit{``MIST''} è l'acronimo di \textit{``Microscopy Image Stitching Tool''}, un algoritmo di stitching per collezioni di griglie di immagini 2D. Gli autori hanno sviluppato un metodo per ottimizzare il processo di \textit{Phase-Correlation} usando l'approccio della Trasformata di Fourier. Ottimizza il calcolo di tutte le traslazioni usando l'algoritmo \textit{``Hill Climbing''} limitando la ripetibilità di questa fase a quattro volte. Questo metodo è valido in immagini sparse di grandi dimensioni con set di dati di riferimento, generate per calcolare gli errori di cucitura sul mosaico assemblato. Il software in questione è usufruibile solo per \textit{ImageJ/Fiji} a 64 bit \cite{MIST}.
+
+\subsection{MicroMos}
+\textit{``MicroMos"} è un software open-source per costruire automaticamente un mosaico di immagini attaccando (i.e. stitching) immagini parzialmente sovrapposte. Come prerequisito per le immagini fornite in input vi è il bisogno che siano statiche e indeformabili. Nella fase di stitching  vengono applicati algoritmi anche per correggere l'effetto di vignettatura, cioè per correggere la riduzione di intensità o saturazione dell'immagine che può presentarsi nei contorni. Può essere usato per registrazione multi-modale ma l’utente deve definire a mano la posizione di sovrapposizione.
+
+\subsection{Correlia}
+\textit{``Correlia''} è un software open-source. Ha un'interfaccia facile da usare, e si occupa sia di registrazione di immagini che presentano trasformazioni lineari, ovvero trasformazioni rigide come la traslazione, la rotazione e la scala, sia non lineari come le deformazioni elastiche. Sfrutta un modello di trasformazione basato sulle cubiche B-Spline, usando il plugin \textit{bUnwarpj} di \textit{ImageJ/Fiji} per quanto riguarda le deformazioni, mentre per le trasformazioni rigide usa l'interpolazione bilineare. È un software multi-modale, e fa uso degli algoritmi di warping per migliorare la registrazione di immagini che presentano colorazioni diverse \cite{https://doi.org/10.1111/jmi.12928}.
+
+\subsection{BigWarp}
+\textit{``BigWarp''} è uno strumento per l'allineamento di immagini multimodali in 2D e in 3D basato su punti di riferimento. La sua fase di registrazione è basata sull'uso di un'immagine source che funge da template e una target. Manualmente l'utente applica trasformazioni affini ed elastiche per adattare il target al source. Per visualizzare le immagini utilizza il plugin \textit{``BigDataViewer''} e un'implementazione delle \textit{Thin Plate Spline} per gestire le deformazioni. Permette di gestire immagini molto pesanti, e di trasformare punti i punti di riferimento rispetto ad un target, usando un file csv \cite{7493463}.
+
+\subsection{ec-CLEM}
+\textit{``ec-CLEM''} è un plugin di \textit{``Icy''}. Concorrente di \textit{ImageJ}, utile per fare registrazione multi-modale. È un plugin multi-modale, multidimensionale poiché gestisce anche immagini in tre dimensioni permettendo l'allineamento di immagini in maniera rigida o deformata. Si serve di punti d'interesse manualmente applicabili, ma ha anche una funzione chiamata Autofinder che si occupa della registrazione automatica. Autofinder può usare per la registrazione automatica maschere di segmentazione oppure punti di riferimento. Il plugin vuole risolvere il problema di assicurarsi un alto grado di accuratezza senza curarsi dell'origine di acquisizione dell'immagine, sia essa stata acquisita con microscopi elettronici o con microscopi ottici. Da la possibilità di effettuare registrazioni rigide o elastiche: per quanto riguarda le seconde, il requisito fondamentale è che sia stata effettuata almeno una registrazione rigida iniziale \cite{PaulGilloteaux2017}.
+
+
+\section{Tabella comparativa plugins/tools}
+
+\resizebox{\linewidth}{!}{%
+\centering
+\begin{tabular}{| 
+>{\centering\arraybackslash}m{0.75in} |
+>{\centering\arraybackslash}m{0.77in} | 
+>{\centering\arraybackslash}m{0.77in} | 
+>{\centering\arraybackslash}m{0.8in} | 
+>{\centering\arraybackslash}m{0.8in} | 
+>{\centering\arraybackslash}m{0.8in} | 
+>{\centering\arraybackslash}m{0.9in} | 
+>{\centering\arraybackslash}m{0.9in} | 
+>{\centering\arraybackslash}m{0.9in} |} 
+  \hline
+  \small{Nome} &
+  \small{Hyper-Link} & 
+  \small{Dataset disponibile [Y/N]} &
+  \small{Tutorial disponibile [Y/N]} & 
+  %Gestione \newline immagini con scala\newline differente [Y/N] & 
+  \small{Gestisce scale differenti [Y/N]} & 
+  %Gestione \newline immagini con size\newline differente [Y/N] & 
+  \small{Gestisce size differenti [Y/N]} & 
+  \small{Registrazione\newline Manuale [Y/N]} & 
+  \small{Registrazione\newline Automatica [Y/N]} & 
+  \small{Registrazione\newline Automatica\newline Multimodale [Y/N]} \\ 
+  \hline
+  \footnotesize{Elastic Alignment and Montage} & 
+  \href{https://imagej.net/plugins/elastic-alignment-and-montage}{\footnotesize{elastic-alignment-and-montage}} & 
+  N & Y & Y & Y & N & N & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{TrakEM2 Folder Watcher} & 
+  \href{https://imagej.net/plugins/trakem2}{\footnotesize{trakem2}} & 
+  \href{https://www.ini.uzh.ch/~acardona/data.html}{Y} &
+  Y & Y & Y & Y & Y & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{Align Image by line ROI} &
+  \href{https://imagej.net/plugins/align-image-by-line-roi}{\footnotesize{align-image-by-line-roi}} & 
+  N & Y & Y & N & N & Y & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{Moving Least Squares} & 
+  \href{https://imagej.net/plugins/moving-least-squares}{\footnotesize{moving-least-squares}} & 
+  N & Y & N & N & N & Y & N \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{Linear Stack Alignment with SIFT} & 
+  \href{https://imagej.net/plugins/linear-stack-alignment-with-sift}{\footnotesize{linear-stack-alignment-with-sift}} &
+  N & N & N & N & N & Y & N \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{Register Virtual Stack Slices} & 
+  \href{https://imagej.net/plugins/register-virtual-stack-slices}{\footnotesize{register-virtual-stack-slices}} & 
+  N & Y & Y & Y & N & Y & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{BigStitcher} & 
+  \href{https://imagej.net/plugins/bigstitcher/}{\footnotesize{bigstitcher}} &
+  Y & Y & N & Y & Y & Y & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{ImageJ\par Stitching} & 
+  \href{https://imagej.net/plugins/image-stitching}{\footnotesize{image-stitching}} & 
+  N & Y & N & Y & N & Y & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{MIST} & 
+  \href{https://isg.nist.gov/deepzoomweb/resources/csmet/pages/image_stitching/image_stitching.html}{\footnotesize{mist}} &
+  Y & Y & N & N & N & Y & N \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{MicroMos} & 
+  \href{https://sourceforge.net/projects/micromos/}{\footnotesize{micromos}} & 
+  Y & Y & N & N & Y & Y & N \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{Correlia} & 
+  \href{https://www.ufz.de/index.php?en=47216}{\footnotesize{correlia}} & 
+  Y & Y & Y & Y & Y & Y & Y \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{BigWarp} & 
+  \href{https://imagej.net/plugins/bigwarp}{\footnotesize{BigWarp}} & 
+  N & Y & Y & Y & Y & Y & N \tabularnewline[1ex]
+  \hline
+  
+  \footnotesize{ec-CLEM} & 
+  \href{https://icy.bioimageanalysis.org/plugin/ec-clem/}{\footnotesize{ec-CLEM}} & 
+  Y & Y & Y & Y & Y & Y & Y \tabularnewline[1ex]
+  \hline
+
+\end{tabular}}
+
+\section{Limiti}
+La ricerca dei competitors ha evidenziato la presenza di quattro competitors:
+\begin{itemize}
+    \item \textit{TrackEM2};
+    \item \textit{Correlia};
+    \item \textit{BigWarp};
+    \item \textit{ec-Clem}.
+\end{itemize}
+Per ognuno di questi software si definisco di seguito i limiti riscontßrati.
+
+\subsubsection{TrackEM2}
+\textit{TrackEM2} è predisposto principalmente per analizzare immagini pesanti particolarmente e consente il settaggio di vari flags.
+Questo è già un primo indicatore della sua poca \textit{user-friendliness} poiché richiede conoscenze informatiche dell'utente per essere sfruttato appieno. L'applicazione non nasce per la registrazione, ma per il \textit{data mining} morfologico. Il suo utilizzo principale è la misurazione di volumi, superfici e lunghezze via punti di riferimento. L'utilizzo di \textit{SIFT} come algoritmo di registrazione predispone il tool ad un ulteriore peso sotto il profilo del costo computazionale. L'allineamento via \textit{SIFT}, seppur automatico, richiede più step attraverso finestre di dialogo per la configurazione. Questi elementi non permette un veloce utilizzo, e per quanto sia un ottimo software, risulta macchinoso.
+
+\subsubsection{Correlia}
+\textit{Correlia} presenta un limite sostanziali: come per quasi tutti i competitors elencati, richiedere all'utente il tipo di trasformazioni da applicare durante la fase di allineamento automatico, rendendo il suo utilizzo particolamente lento. Altri punti negativi di cui tenere in considerazione sono l'utilizzo di algoritmi datati e la dipendenza da \textit{bUnwarpj}.
+
+\subsubsection{BigWarp}
+\textit{BigWarp} è limitato dalla modalità di allineamento esclusivamente manuale, e dalla necessità di avere un computer recente non datato per poterlo sfruttare appieno. Il ``Big'' del suo nome è correlato al termine BigData, ed una delle sue funzionalità principali è proprio quella di lavorare con dataset di una certa grandezza.
+
+\subsubsection{ec-Clem}
+Il limite maggiore di \textit{ec-CLEM} è l'enorme numero di finestre di dialogo utili ad utilizzare l'Autofinder, con le quali è facile perdere l'ordine degli eventi e ciò va a discapito dell'utente con medie competenze di analisi dati ed utilizzo di applicativi.
