@@ -14,7 +14,7 @@
   a4paper,                % formato di pagina A4
   12pt,                   % corpo del testo a 12pt
   % la dimensione 12pt automaticamente imposta \footnotesize a 10pt
-  twoside,                % (oneside|twoside) documento a singola o doppia facciata,
+  oneside,                % (oneside|twoside) documento a singola o doppia facciata,
   openright,              % (openany|openright) fa cominciare un capitolo nella successiva pagina a disposizione o sempre in una pagina destra
   % twocolumn,            % dà a LaTeX le istruzioni per comporre l'intero documento su due colonne
   titlepage,              % (titlepage|notitlepage) se dopo il titolo del documento debbaavere  inizio  una  nuova  pagina
@@ -216,30 +216,35 @@
     \addtocounter{page}{-1}%
     \newpage}
 
+    
+
 \begin{document}
 
   \frontmatter{}
   \pagenumbering{Roman}
   \pagestyle{empty}
   \input{src/1-frontmatter/frontespizio.tex}
-  \blankpage
-  \input{src/1-frontmatter/keywords.tex}
-  \blankpage
-  % \input{src/1-frontmatter/dedica.tex}
-  \input{src/1-frontmatter/abstract.tex}
-  \tableofcontents
-
+  
   \mainmatter{}
   \pagenumbering{arabic}
   \pagestyle{headings}
+  \setcounter{page}{1}
 
+  \afterpage{\blankpage}
+  \input{src/2-mainmatter/keywords.tex}
+  \afterpage{\blankpage}
+  \input{src/2-mainmatter/abstract.tex}
+  \afterpage{\blankpage}
+
+  \tableofcontents
   \input{src/2-mainmatter/introduzione.tex}
   \input{src/2-mainmatter/chapter-1.tex}
   \input{src/2-mainmatter/chapter-2.tex}
   \input{src/2-mainmatter/chapter-3.tex}
+  \input{src/2-mainmatter/chapter-4.tex}
+  \input{src/2-mainmatter/chapter-5.tex}
 
   \backmatter{}
   \input{src/3-backmatter/bibliografia.tex}
-  \input{src/3-backmatter/ringraziamenti.tex}
 
 \end{document}

@@ -1,2 +1,72 @@
-\chapter{Descrizione del modulo allineamento semi-automatico}
-\label{chap:descriptionnewtool}
+\chapter{Descrizione del modulo allineamento automatico}
+\label{chap:descriptionnewtool} 
+\noindent Questo capitolo rappresenta il nostro caso di studio, che riguarda la feature di allineamento automatico. La funzionalità in questione è stata costruita con l'ausilio di \textit{``OpenCV''}, la libreria di \textit{Computer Vision} per definizione. Tra gli argomenti trattati sono presenti anche le scelte fatte utili alla costruzione della funzionalità.
+
+\section{OpenCV}
+\noindent Il campo della \textit{Computer vision} è un sottoinsieme del campo dell'AI (\textit{Artificial Intelligence}) ed è il tramite secondo il quale un'AI può prendere decisioni rispetto a ciò che ``osserva''. L'intenzione principale è imitare il nostro senso della vista, e come per noi esseri umani che sin da piccoli abbiamo imparato a classificare e distinguere le informazioni tramite retine, nervi ottici e corteccia visiva, la Computer Vision lo fa tramite algoritmi~\cite{IBM_CV}.
+
+\subsection{OpenCV Library}
+\noindent \textit{OpenCV} (Open Source Computer Vision Library) è una libreria che contiene più di 2500 algoritmi di Computer Vision e \textit{Machine Learning}, la cui peculiarità è il fatto di essere Open Source. Il suo utilizzo è molto variegato e spazia dalla rilevazione di movimenti, oggetti e visi, al classificare i soggetti presenti in una sorgente video e ad operazioni di stiching tra immagini ecc. La libreria ha una community composta da più di 47 mila persone, ed è usata sia per motivi commerciali che per la ricerca scientifica.
+La maggior parte dei programmi legati alla Computer Vision basano i loro progetti su questa libreria, e la possibilità di usarlo in linguaggi come C++, Java, Python, Javascript e MATLAB e sistemi operativi come Windows, Linux, Mac OS X, iOS e Android rendeno la sua adozione la scelta preferita per applicazioni in cui è richiesto un uso intensivo di elaborazione di immagini e video in tempo reale~\cite{opencv_library}.
+
+\subsection{OpenCV Extra Features Library}
+\noindent \textit{OpenCV} contiene tantissimi moduli al suo interno e sono tutti usufruibili senza alcuna licenza anche per prodotti commerciali, ma ci sono delle eccezioni.
+Tutte le eccezioni sono contenute all'interno di una libreria chiamata \textit{``OpenCV Contrib''} e contiene tutti quei moduli con funzionalità che potrebbero essere non stabili, oppure la cui licenza è a pagamento per uso commerciale ma non per prodotti open-source. In questa libreria si trovano due degli algoritmi usati al fine di creare la nuova funzionalità cioè \textit{FREAK} e \textit{``StarDetector''}.
+
+\subsection{Compilazione dalla sorgente}
+\noindent \textit{OpenCV} è rilasciato in forme già pronte per Android, iOS e Windows mentre per qualsiasi altra piattaforma o per quando è richiesto l'uso della libreria \textit{OpenCV Contrib} è necessario compilare i sorgenti scaricabili. Per portare a compimento la funzionalità del nostro caso di studio è stato necessario scaricare entrambi i sorgenti, per produrre un file JAR e le librerie relative alle piattaforme di esecuzione, ad esempio i file *.dll per Windows e i file *.dylib per i MacOS X con architettura ARM\@.
+I prerequisiti utili alla compilazione sono primo fra tutti, quello di avere una distribuzione Java installata sul proprio sistema operativo, scaricare il programma \textit{``CMake''}, ed un terminale. Una volta scaricate le librerie \textit{OpenCV} e \textit{OpenCV Contrib} in formato zip e estratte dagli archivi, è utile mantenere per comodità entrambe le cartelle risultanti all'interno di una cartella padre. Una volta completata questa operazione occorre aprire il terminale e specificare come percorso corrente la cartella padre. A questo punto si possono eseguire in sequenza i comandi~\ref{lst:mdkdirbuild},~\ref{lst:extract} e~\ref{lst:compile}. Il risultato di questi comandi, una volta terminati si troverà all'interno della cartella ``{Nome Cartella Padre}/build/lib'' e potranno essere usati nel proprio progetto. Nel nostro caso di studio, è bene ricordarsi di copiare questi files (e.g.\ opencv\_core455.dll, opencv\_java455.dll) all'interno della cartella ``Fiji.app/libs''.
+
+\begin{lstlisting}[label={lst:mdkdirbuild}, caption={Creazione cartella Build}]
+    mkdir build && cd build
+\end{lstlisting}
+
+\begin{lstlisting}[label={lst:extract}, caption={Esempio di creazione di build estrazione dalla sorgente per piattaforma MacOs X con processore M1}]
+    cmake -DCMAKE_SYSTEM_PROCESSOR=arm64 \
+    -DCMAKE_OSX_ARCHITECTURES=arm64 \
+    -DWITH_OPENJPEG=OFF \
+    -DWITH_IPP=OFF \
+    -D CMAKE_BUILD_TYPE=Release \
+    -D CMAKE_INSTALL_PREFIX=/usr/local/opencv \
+    -D JAVA_INCLUDE_PATH=$JAVA_HOME/include \
+    -D JAVA_AWT_LIBRARY=$JAVA_HOME/jre/lib/amd64/libawt.so \
+    -D JAVA_JVM_LIBRARY=$JAVA_HOME/jre/lib/arm/server/libjvm.so \
+    -D OPENCV_EXTRA_MODULES_PATH=../opencv_contrib-4.5.5/modules \
+    -D WITH_FFMPEG=OFF \
+    -D WITH_OPENCL=OFF \
+    -D BUILD_opencv_java=ON \
+    -D OPENCV_ENABLE_NONFREE=ON \
+    -D BUILD_opencv_python2=OFF \
+    -D BUILD_opencv_python3=OFF \
+    -D BUILD_ZLIB=OFF \
+    -D BUILD_EXAMPLES=ON ../opencv-4.5.5
+\end{lstlisting}
+
+\begin{lstlisting}[label={lst:compile}, caption={Esempio compilazione sorgente per piattaforma MacOs X con processore M1, usufruibile anche per altre piattaforme UNIX e LINUX}]
+    make -j8
+\end{lstlisting}
+
+\section{Loader}
+\noindent \textit{DS4H Image Alignment} è un plugin pensato per essere multipiattaforma, questo requisito rimane tale anche per le librerie di terze parti importate. \textit{OpenCV} per essere utilizzata richiede di essere caricata prima del plugin stesso, per ovviare a questo problema abbiamo usato uno static block all'interno della classe principale chiamata ``ImageAlignment''. Lo static block viene chiamato prima del costruttore della classe, e di conseguenza permette di gestire errori legati all'importazione prima di avviare il plugin. 
+A questo punto si è scelto di usare lo \textbf{``Strategy Pattern''} che permette di scegliere in fase d'esecuzione la classe giusta, nel nostro caso ci ha permesso di definire due classi una per le librerie per la piattaforma Windows e l'altra per la piattaforma Mac OS X basata su processori ARM\@.
+
+\begin{lstlisting}[language=Java,label={lst:static-call}, caption={Esempio di static block proveniente dal nostro caso di studio}]
+    static {
+        ImageAlignment.loader();
+    }
+\end{lstlisting}
+
+\section{AlignBuilder}
+\noindent La versione precedente del plugin \textit{DS4H Image Alignment} permetteva solo la co-registrazione tramite corner points. Al fine di rispettare l'\textbf{Open-Closed Principle}, uno dei cinque principi \textbf{SOLID}, si è scelto di usare il \textbf{``Builder Pattern''}. I principi SOLID sono alla base di un software nella programmazione ad oggetti. Il \textbf{Builder Pattern} richiede che ci sia un oggetto comune a tutte le classi che lo implementano/estendono, e nel caso di \textit{DS4H Image Alignment} si è scelto di racchiudere il tutto in una abstract class chiamata \textit{AlignBuilder} che mantenesse le funzionalità comuni come il salvataggio delle immagini risultanti. Tale scelta permette di poter creare classi specifiche per l'allineamento, qualunque sia l'algoritmo scelto, senza dover modificare le classi già presenti.
+
+\section{Algoritmo di allineamento automatico}
+\noindent Nel nostro algoritmo si è scelto di fare la comparazione delle caratteristiche delle immagini a gruppi di due, dove la prima immagine è in realtà sempre la stessa e non viene modificata, mentre la seconda è quella a cui si applicano le deformazioni rispetto alle proporzioni della prima. Alla base della nuova modalità di allineamento automatico c'è stata la scelta di usare l'algoritmo già definito in precedenza chiamato \textit{FREAK}. Tale algoritmo è stato sfruttato in fase di definizione delle corrispondenze delle caratteristiche tra due immagini. Per la fase antecedente ad essa si è scelto un algoritmo chiamato \textit{``StarDetector''} che si occupa di ricercare le caratteristiche, algoritmo basato su \cite{10.1007/978-3-540-88693-8_8}, scelto poiché forniva risultanti soddisfacenti in tempi molto rapidi. Una volta costruiti i descrittori delle corrispondenze ed effettuata la fase di feature matching tramite distanza di Hamming, come già descritto nel Capitolo 1, si procede eliminando i falsi positivi filtrandolo usando il ``Lowe's ratio test'' dove si controlla la distanza della prima corrispondenza non sia maggiore di una seconda corrispondenza moltiplicata per 0.75. Se si sono trovate almeno 4 corrispondenze a questo punto si può procedere con la deformazione. Il risultato ottenuto è visibile tramite la finestra di allineamento, le cui funzionalità sono già state descritte nel Capitolo 3. 
+
+\section{Reload Stack}
+\noindent Il nostro algoritmo di allineamento automatico performa in maniera ottima fino a quando la variazione d'intensità tra le immagini non risulta eccessiva. È effettivamente un algoritmo di allineamento multimodale e l'unico caso in cui abbiamo trovato dei problemi è l'utilizzo di immagini \textit{DIC}. Per ovviare a questa problematica si possono effettuare questi passi :
+\begin{enumerate}
+    \item Usare l'allineamento automatico per tutte le immagini non DIC\@.
+    \item Usare la funzione ``Reuse as source'' che riusa tali immagini nello stack principale.
+    \item Usare infine l'allineamento via corner points.
+    \item Consiglio Bonus: si possono usare le funzionalità di Fiji legate alla modifica delle immagini, come ad esempio cambiarne il contrasto della immagine DIC, l'allineamento avverrà comunque tra le immagini originali non modificate.
+\end{enumerate}

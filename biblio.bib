@@ -3,6 +3,22 @@
 % Foundational field calculus and Protelis aggregate programming
 
 
+@inproceedings{10.1007/978-3-540-88693-8_8,
+  author    = {Agrawal, Motilal
+               and Konolige, Kurt
+               and Blas, Morten Rufus},
+  editor    = {Forsyth, David
+               and Torr, Philip
+               and Zisserman, Andrew},
+  title     = {CenSurE: Center Surround Extremas for Realtime Feature Detection and Matching},
+  booktitle = {Computer Vision -- ECCV 2008},
+  year      = {2008},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {102--115},
+  abstract  = {We explore the suitability of different feature detectors for the task of image registration, and in particular for visual odometry, using two criteria: stability (persistence across viewpoint change) and accuracy (consistent localization across viewpoint change). In addition to the now-standard SIFT, SURF, FAST, and Harris detectors, we introduce a suite of scale-invariant center-surround detectors (CenSurE) that outperform the other detectors, yet have better computational characteristics than other scale-space detectors, and are capable of real-time implementation.},
+  isbn      = {978-3-540-88693-8}
+}
 @inproceedings{10.1007/978-3-642-15552-9_14,
   author    = {Mair, Elmar
                and Hager, Gregory D.
@@ -21,6 +37,85 @@
   abstract  = {The efficient detection of interesting features is a crucial step for various tasks in Computer Vision. Corners are favored cues due to their two dimensional constraint and fast algorithms to detect them. Recently, a novel corner detection approach, FAST, has been presented which outperforms previous algorithms in both computational performance and repeatability. We will show how the accelerated segment test, which underlies FAST, can be significantly improved by making it more generic while increasing its performance.We do so by finding the optimal decision tree in an extended configuration space, and demonstrating how specialized trees can be combined to yield an adaptive and generic accelerated segment test. The resulting method provides high performance for arbitrary environments and so unlike FAST does not have to be adapted to a specific scene structure. We will also discuss how different test patterns affect the corner response of the accelerated segment test.},
   isbn      = {978-3-642-15552-9}
 }
+
+@article{10.1083/jcb.201004104,
+  author   = {Linkert, Melissa and Rueden, Curtis T. and Allan, Chris and Burel, Jean-Marie and Moore, Will and Patterson, Andrew and Loranger, Brian and Moore, Josh and Neves, Carlos and MacDonald, Donald and Tarkowska, Aleksandra and Sticco, Caitlin and Hill, Emma and Rossner, Mike and Eliceiri, Kevin W. and Swedlow, Jason R.},
+  title    = {{Metadata matters: access to image data in the real world}},
+  journal  = {Journal of Cell Biology},
+  volume   = {189},
+  number   = {5},
+  pages    = {777-782},
+  year     = {2010},
+  month    = {05},
+  abstract = {{Data sharing is important in the biological sciences to prevent duplication of effort, to promote scientific integrity, and to facilitate and disseminate scientific discovery. Sharing requires centralized repositories, and submission to and utility of these resources require common data formats. This is particularly challenging for multidimensional microscopy image data, which are acquired from a variety of platforms with a myriad of proprietary file formats (PFFs). In this paper, we describe an open standard format that we have developed for microscopy image data. We call on the community to use open image data standards and to insist that all imaging platforms support these file formats. This will build the foundation for an open image data repository.}},
+  issn     = {0021-9525},
+  doi      = {10.1083/jcb.201004104},
+  url      = {https://doi.org/10.1083/jcb.201004104},
+  eprint   = {https://rupress.org/jcb/article-pdf/189/5/777/1346115/jcb\_201004104.pdf}
+}
+
+@article{10.1093/bioinformatics/bts543,
+  author   = {Pietzsch, Tobias and Preibisch, Stephan and Tomančák, Pavel and Saalfeld, Stephan},
+  title    = {{ImgLib2—generic image processing in Java}},
+  journal  = {Bioinformatics},
+  volume   = {28},
+  number   = {22},
+  pages    = {3009-3011},
+  year     = {2012},
+  month    = {09},
+  abstract = {{Summary: ImgLib2 is an open-source Java library for n-dimensional data representation and manipulation with focus on image processing. It aims at minimizing code duplication by cleanly separating pixel-algebra, data access and data representation in memory. Algorithms can be implemented for classes of pixel types and generic access patterns by which they become independent of the specific dimensionality, pixel type and data representation. ImgLib2 illustrates that an elegant high-level programming interface can be achieved without sacrificing performance. It provides efficient implementations of common data types, storage layouts and algorithms. It is the data model underlying ImageJ2, the KNIME Image Processing toolbox and an increasing number of Fiji-Plugins.Availability: ImgLib2 is licensed under BSD. Documentation and source code are available at http://imglib2.net and in a public repository at https://github.com/imagej/imglib.Supplementary Information:Supplementary data are available at Bioinformatics Online.Contact: saalfeld@mpi-cbg.de}},
+  issn     = {1367-4803},
+  doi      = {10.1093/bioinformatics/bts543},
+  url      = {https://doi.org/10.1093/bioinformatics/bts543},
+  eprint   = {https://academic.oup.com/bioinformatics/article-pdf/28/22/3009/16908600/bts543.pdf}
+}
+
+@article{10.1145/1141911.1141920,
+  author     = {Schaefer, Scott and McPhail, Travis and Warren, Joe},
+  title      = {Image Deformation Using Moving Least Squares},
+  year       = {2006},
+  issue_date = {July 2006},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {25},
+  number     = {3},
+  issn       = {0730-0301},
+  url        = {https://doi.org/10.1145/1141911.1141920},
+  doi        = {10.1145/1141911.1141920},
+  abstract   = {We provide an image deformation method based on Moving Least Squares using various classes of linear functions including affine, similarity and rigid transformations. These deformations are realistic and give the user the impression of manipulating real-world objects. We also allow the user to specify the deformations using either sets of points or line segments, the later useful for controlling curves and profiles present in the image. For each of these techniques, we provide simple closed-form solutions that yield fast deformations, which can be performed in real-time.},
+  journal    = {ACM Trans. Graph.},
+  month      = {jul},
+  pages      = {533–540},
+  numpages   = {8},
+  keywords   = {rigid transformations, deformations, moving least squares}
+}
+
+@article{10.1371/journal.pone.0038011,
+  doi       = {10.1371/journal.pone.0038011},
+  author    = {Cardona, Albert AND Saalfeld, Stephan AND Schindelin, Johannes AND Arganda-Carreras, Ignacio AND Preibisch, Stephan AND Longair, Mark AND Tomancak, Pavel AND Hartenstein, Volker AND Douglas, Rodney J.},
+  journal   = {PLOS ONE},
+  publisher = {Public Library of Science},
+  title     = {TrakEM2 Software for Neural Circuit Reconstruction},
+  year      = {2012},
+  month     = {06},
+  volume    = {7},
+  url       = {https://doi.org/10.1371/journal.pone.0038011},
+  pages     = {1-8},
+  abstract  = {A key challenge in neuroscience is the expeditious reconstruction of neuronal circuits. For model systems such as Drosophila and C. elegans, the limiting step is no longer the acquisition of imagery but the extraction of the circuit from images. For this purpose, we designed a software application, TrakEM2, that addresses the systematic reconstruction of neuronal circuits from large electron microscopical and optical image volumes. We address the challenges of image volume composition from individual, deformed images; of the reconstruction of neuronal arbors and annotation of synapses with fast manual and semi-automatic methods; and the management of large collections of both images and annotations. The output is a neural circuit of 3d arbors and synapses, encoded in NeuroML and other formats, ready for analysis.},
+  number    = {6}
+}
+
+@article{5338015,
+  author  = {Klein, Stefan and Staring, Marius and Murphy, Keelin and Viergever, Max A. and Pluim, Josien P. W.},
+  journal = {IEEE Transactions on Medical Imaging},
+  title   = {<emphasis emphasistype="mono">elastix</emphasis>: A Toolbox for Intensity-Based Medical Image Registration},
+  year    = {2010},
+  volume  = {29},
+  number  = {1},
+  pages   = {196-205},
+  doi     = {10.1109/TMI.2009.2035616}
+}
+
 @inproceedings{6126542,
   author    = {Leutenegger, Stefan and Chli, Margarita and Siegwart, Roland Y.},
   booktitle = {2011 International Conference on Computer Vision},
@@ -31,7 +126,7 @@
   pages     = {2548-2555},
   doi       = {10.1109/ICCV.2011.6126542}
 }
-
+  
 @inproceedings{6247715,
   author    = {Alahi, Alexandre and Ortiz, Raphael and Vandergheynst, Pierre},
   booktitle = {2012 IEEE Conference on Computer Vision and Pattern Recognition},
@@ -41,6 +136,17 @@
   number    = {},
   pages     = {510-517},
   doi       = {10.1109/CVPR.2012.6247715}
+}
+
+@inproceedings{7493463,
+  author    = {Bogovic, John A. and Hanslovsky, Philipp and Wong, Allan and Saalfeld, Stephan},
+  booktitle = {2016 IEEE 13th International Symposium on Biomedical Imaging (ISBI)},
+  title     = {Robust registration of calcium images by learned contrast synthesis},
+  year      = {2016},
+  volume    = {},
+  number    = {},
+  pages     = {1123-1126},
+  doi       = {10.1109/ISBI.2016.7493463}
 }
 
 @inproceedings{7493463,
@@ -67,6 +173,45 @@
   keywords  = {NHIR;histology; image registration; microscopy;},
   issn      = {1558-254X},
   timestamp = {Sab, 24 Oct 2020}
+}
+
+@article{Allan2012,
+  author   = {Allan, Chris
+              and Burel, Jean-Marie
+              and Moore, Josh
+              and Blackburn, Colin
+              and Linkert, Melissa
+              and Loynton, Scott
+              and MacDonald, Donald
+              and Moore, William J.
+              and Neves, Carlos
+              and Patterson, Andrew
+              and Porter, Michael
+              and Tarkowska, Aleksandra
+              and Loranger, Brian
+              and Avondo, Jerome
+              and Lagerstedt, Ingvar
+              and Lianas, Luca
+              and Leo, Simone
+              and Hands, Katherine
+              and Hay, Ron T.
+              and Patwardhan, Ardan
+              and Best, Christoph
+              and Kleywegt, Gerard J.
+              and Zanetti, Gianluigi
+              and Swedlow, Jason R.},
+  title    = {OMERO: flexible, model-driven data management for experimental biology},
+  journal  = {Nature Methods},
+  year     = {2012},
+  month    = {Mar},
+  day      = {01},
+  volume   = {9},
+  number   = {3},
+  pages    = {245-253},
+  abstract = {The Open Microscopy Environment Remote Objects (OMERO) software platform provides a server-based system for managing and analyzing microscopy images and non-image data.},
+  issn     = {1548-7105},
+  doi      = {10.1038/nmeth.1896},
+  url      = {https://doi.org/10.1038/nmeth.1896}
 }
 
 @article{Alturkistani2015-bz,
@@ -142,7 +287,8 @@
   keywords = {Interest points, Local features, Feature description, Camera calibration, Object recognition},
   abstract = {This article presents a novel scale- and rotation-invariant detector and descriptor, coined SURF (Speeded-Up Robust Features). SURF approximates or even outperforms previously proposed schemes with respect to repeatability, distinctiveness, and robustness, yet can be computed and compared much faster. This is achieved by relying on integral images for image convolutions; by building on the strengths of the leading existing detectors and descriptors (specifically, using a Hessian matrix-based measure for the detector, and a distribution-based descriptor); and by simplifying these methods to the essential. This leads to a combination of novel detection, description, and matching steps. The paper encompasses a detailed description of the detector and descriptor and then explores the effects of the most important parameters. We conclude the article with SURF’s application to two challenging, yet converse goals: camera calibration as a special case of image registration, and object recognition. Our experiments underline SURF’s usefulness in a broad range of topics in computer vision.}
 }
-  
+
+
 @article{Bulgarelli2019-oa,
   title     = {Dendritic cell vaccination in metastatic melanoma turns ``non-T
                cell inflamed'' into ``T-cell inflamed'' tumors},
@@ -202,6 +348,44 @@
   language  = {en}
 }
 
+@misc{CheatSheet,
+  title        = {Legacy CheatSheet : ImageJ 1.x to ImageJ2 transition},
+  howpublished = {\url{https://github.com/mpicbg-scicomp/ij2course-images/blob/master/slides/ij_legacy_cheetsheet.pdf}},
+  note         = {Accessed: 2022-04-30}
+}
+
+  @article{Hiner2016,
+  author   = {Hiner, Mark C.
+              and Rueden, Curtis T.
+              and Eliceiri, Kevin W.},
+  title    = {SCIFIO: an extensible framework to support scientific image formats},
+  journal  = {BMC Bioinformatics},
+  year     = {2016},
+  month    = {Dec},
+  day      = {07},
+  volume   = {17},
+  number   = {1},
+  pages    = {521},
+  abstract = {No gold standard exists in the world of scientific image acquisition; a proliferation of instruments each with its own proprietary data format has made out-of-the-box sharing of that data nearly impossible. In the field of light microscopy, the Bio-Formats library was designed to translate such proprietary data formats to a common, open-source schema, enabling sharing and reproduction of scientific results. While Bio-Formats has proved successful for microscopy images, the greater scientific community was lacking a domain-independent framework for format translation.},
+  issn     = {1471-2105},
+  doi      = {10.1186/s12859-016-1383-0},
+  url      = {https://doi.org/10.1186/s12859-016-1383-0}
+}
+
+@article{https://doi.org/10.1002/mrd.22489,
+  author   = {Schindelin, Johannes and Rueden, Curtis T. and Hiner, Mark C. and Eliceiri, Kevin W.},
+  title    = {The ImageJ ecosystem: An open platform for biomedical image analysis},
+  journal  = {Molecular Reproduction and Development},
+  volume   = {82},
+  number   = {7-8},
+  pages    = {518-529},
+  doi      = {https://doi.org/10.1002/mrd.22489},
+  url      = {https://onlinelibrary.wiley.com/doi/abs/10.1002/mrd.22489},
+  eprint   = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/mrd.22489},
+  abstract = {SUMMARY Technology in microscopy advances rapidly, enabling increasingly affordable, faster, and more precise quantitative biomedical imaging, which necessitates correspondingly more-advanced image processing and analysis techniques. A wide range of software is available—from commercial to academic, special-purpose to Swiss army knife, small to large—but a key characteristic of software that is suitable for scientific inquiry is its accessibility. Open-source software is ideal for scientific endeavors because it can be freely inspected, modified, and redistributed; in particular, the open-software platform ImageJ has had a huge impact on the life sciences, and continues to do so. From its inception, ImageJ has grown significantly due largely to being freely available and its vibrant and helpful user community. Scientists as diverse as interested hobbyists, technical assistants, students, scientific staff, and advanced biology researchers use ImageJ on a daily basis, and exchange knowledge via its dedicated mailing list. Uses of ImageJ range from data visualization and teaching to advanced image processing and statistical analysis. The software's extensibility continues to attract biologists at all career stages as well as computer scientists who wish to effectively implement specific image-processing algorithms. In this review, we use the ImageJ project as a case study of how open-source software fosters its suites of software tools, making multitudes of image-analysis technology easily accessible to the scientific community. We specifically explore what makes ImageJ so popular, how it impacts the life sciences, how it inspires other projects, and how it is self-influenced by coevolving projects within the ImageJ ecosystem. Mol. Reprod. Dev. 82: 518–529, 2015. © 2015 Wiley Periodicals, Inc.},
+  year     = {2015}
+}
+
 @article{https://doi.org/10.1111/jmi.12928,
   author   = {ROHDE, FLORENS and BRAUMANN, ULF-DIETRICH and SCHMIDT, MATTHIAS},
   title    = {Correlia: an ImageJ plug-in to co-register and visualise multimodal correlative micrographs},
@@ -217,11 +401,32 @@
   year     = {2020}
 }
 
-@online{Istologia,
+@misc{IBM_CV,
+  title        = {Cos'è la Computer Vision?},
+  howpublished = {\url{https://www.ibm.com/it-it/topics/computer-vision}},
+  note         = {Accessed: 2022-05-01}
+}
+
+  @online{Istologia,
   author = {Enciclopedia Treccani},
   title  = {istologia},
   year   = {2022},
   url    = {https://www.treccani.it/enciclopedia/istologia/}
+}
+
+@article{LI201627,
+  title    = {Metadata management for high content screening in OMERO},
+  journal  = {Methods},
+  volume   = {96},
+  pages    = {27-32},
+  year     = {2016},
+  note     = {High-throughput Imaging},
+  issn     = {1046-2023},
+  doi      = {https://doi.org/10.1016/j.ymeth.2015.10.006},
+  url      = {https://www.sciencedirect.com/science/article/pii/S1046202315301250},
+  author   = {Simon Li and Sébastien Besson and Colin Blackburn and Mark Carroll and Richard K. Ferguson and Helen Flynn and Kenneth Gillen and Roger Leigh and Dominik Lindner and Melissa Linkert and William J. Moore and Balaji Ramalingam and Emil Rozbicki and Gabriella Rustici and Aleksandra Tarkowska and Petr Walczysko and Eleanor Williams and Chris Allan and Jean-Marie Burel and Josh Moore and Jason R. Swedlow},
+  keywords = {Data management, Screening, Metadata, HCS},
+  abstract = {High content screening (HCS) experiments create a classic data management challenge—multiple, large sets of heterogeneous structured and unstructured data, that must be integrated and linked to produce a set of “final” results. These different data include images, reagents, protocols, analytic output, and phenotypes, all of which must be stored, linked and made accessible for users, scientists, collaborators and where appropriate the wider community. The OME Consortium has built several open source tools for managing, linking and sharing these different types of data. The OME Data Model is a metadata specification that supports the image data and metadata recorded in HCS experiments. Bio-Formats is a Java library that reads recorded image data and metadata and includes support for several HCS screening systems. OMERO is an enterprise data management application that integrates image data, experimental and analytic metadata and makes them accessible for visualization, mining, sharing and downstream analysis. We discuss how Bio-Formats and OMERO handle these different data types, and how they can be used to integrate, link and share HCS experiments in facilities and public data repositories. OME specifications and software are open source and are available at https://www.openmicroscopy.org.}
 }
 
 @article{Liu2018-ds,
@@ -279,6 +484,17 @@
   doi      = {10.1038/s41598-017-04567-y},
   abstract = {Automated microscopy can image specimens larger than the microscope’s field of view (FOV) by stitching overlapping image tiles. It also enables time-lapse studies of entire cell cultures in multiple imaging modalities. We created MIST (Microscopy Image Stitching Tool) for rapid and accurate stitching of large 2D time-lapse mosaics. MIST estimates the mechanical stage model parameters (actuator backlash, and stage repeatability ‘r’) from computed pairwise translations and then minimizes stitching errors by optimizing the translations within a (4r)2 square area. MIST has a performance-oriented implementation utilizing multicore hybrid CPU/GPU computing resources, which can process terabytes of time-lapse multi-channel mosaics 15 to 100 times faster than existing tools. We created 15 reference datasets to quantify MIST’s stitching accuracy. The datasets consist of three preparations of stem cell colonies seeded at low density and imaged with varying overlap (10 to 50\%). The location and size of 1150 colonies are measured to quantify stitching accuracy. MIST generated stitched images with an average centroid distance error that is less than 2\% of a FOV. The sources of these errors include mechanical uncertainties, specimen photobleaching, segmentation, and stitching inaccuracies. MIST produced higher stitching accuracy than three open-source tools. MIST is available in ImageJ at isg.nist.gov.},
   year     = {2017}
+}
+
+@article{opencv_library,
+  author               = {Bradski, G.},
+  citeulike-article-id = {2236121},
+  journal              = {Dr. Dobb's Journal of Software Tools},
+  keywords             = {bibtex-import},
+  posted-at            = {2008-01-15 19:21:54},
+  priority             = {4},
+  title                = {{The OpenCV Library}},
+  year                 = {2000}
 }
 
 @article{PaulGilloteaux2017,
@@ -339,5 +555,81 @@
   year      = 2010,
   language  = {en}
 }
+
+
+@article{Rueden2017,
+  author   = {Rueden, Curtis T.
+              and Schindelin, Johannes
+              and Hiner, Mark C.
+              and DeZonia, Barry E.
+              and Walter, Alison E.
+              and Arena, Ellen T.
+              and Eliceiri, Kevin W.},
+  title    = {ImageJ2: ImageJ for the next generation of scientific image data},
+  journal  = {BMC Bioinformatics},
+  year     = {2017},
+  month    = {Nov},
+  day      = {29},
+  volume   = {18},
+  number   = {1},
+  pages    = {529},
+  abstract = {ImageJ is an image analysis program extensively used in the biological sciences and beyond. Due to its ease of use, recordable macro language, and extensible plug-in architecture, ImageJ enjoys contributions from non-programmers, amateur programmers, and professional developers alike. Enabling such a diversity of contributors has resulted in a large community that spans the biological and physical sciences. However, a rapidly growing user base, diverging plugin suites, and technical limitations have revealed a clear need for a concerted software engineering effort to support emerging imaging paradigms, to ensure the software's ability to handle the requirements of modern science.},
+  issn     = {1471-2105},
+  doi      = {10.1186/s12859-017-1934-z},
+  url      = {https://doi.org/10.1186/s12859-017-1934-z}
+}
+
+
+@article{Schindelin2012,
+  author   = {Schindelin, Johannes
+              and Arganda-Carreras, Ignacio
+              and Frise, Erwin
+              and Kaynig, Verena
+              and Longair, Mark
+              and Pietzsch, Tobias
+              and Preibisch, Stephan
+              and Rueden, Curtis
+              and Saalfeld, Stephan
+              and Schmid, Benjamin
+              and Tinevez, Jean-Yves
+              and White, Daniel James
+              and Hartenstein, Volker
+              and Eliceiri, Kevin
+              and Tomancak, Pavel
+              and Cardona, Albert},
+  title    = {Fiji: an open-source platform for biological-image analysis},
+  journal  = {Nature Methods},
+  year     = {2012},
+  month    = {Jul},
+  day      = {01},
+  volume   = {9},
+  number   = {7},
+  pages    = {676-682},
+  abstract = {Presented is an overview of the image-analysis software platform Fiji, a distribution of ImageJ that updates the underlying ImageJ architecture and adds modern software design elements to expand the capabilities of the platform and facilitate collaboration between biologists and computer scientists.},
+  issn     = {1548-7105},
+  doi      = {10.1038/nmeth.2019},
+  url      = {https://doi.org/10.1038/nmeth.2019}
+}
+
+
+
+@article{Schneider2012,
+  author   = {Schneider, Caroline A.
+              and Rasband, Wayne S.
+              and Eliceiri, Kevin W.},
+  title    = {NIH Image to ImageJ: 25 years of image analysis},
+  journal  = {Nature Methods},
+  year     = {2012},
+  month    = {Jul},
+  day      = {01},
+  volume   = {9},
+  number   = {7},
+  pages    = {671-675},
+  abstract = {For the past 25 years NIH Image and ImageJ software have been pioneers as open tools for the analysis of scientific images. We discuss the origins, challenges and solutions of these two programs, and how their history can serve to advise and inform other software projects.},
+  issn     = {1548-7105},
+  doi      = {10.1038/nmeth.2089},
+  url      = {https://doi.org/10.1038/nmeth.2089}
+}
+
 
 @Comment{jabref-meta: databaseType:biblatex;}
