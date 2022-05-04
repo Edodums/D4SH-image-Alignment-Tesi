@@ -25,7 +25,7 @@
 
 \usepackage{fancyvrb}       % fornisce l'ambiente VerbatimOut e modifica listati di codice
 \usepackage{minted}       % evidenzia la sintassi dei listati di codice; richiede pygments installato e shell-escape
-\usemintedstyle{monokai}
+\usemintedstyle{xcode}
 
 \begin{VerbatimOut}{\jobname.xmpdata}
 \Title{Titolo}
@@ -50,7 +50,7 @@
 \usepackage[a-1b]{pdfx}         % permette di generare PDF/A
 \usepackage{shellesc}           % aggiunge il comando \write18 necessario su Overleaf per frontespizio
 
-\definecolor{bg}{RGB}{22,43,58}
+\definecolor{bg}{RGB}{252,252,252}
 \setminted{bgcolor=bg, fontsize=\scriptsize, frame=single, breaklines}
 
 \usepackage{tikz}
@@ -234,7 +234,6 @@
     
 
 \begin{document}
-
   \frontmatter{}
   \pagenumbering{Roman}
   \pagestyle{empty}
@@ -244,6 +243,7 @@
   \pagenumbering{arabic}
   \pagestyle{headings}
   \setcounter{page}{1}
+  \Crefname{listing}{Codice}{Codice}
 
   \afterpage{\blankpage}
   \input{src/2-mainmatter/keywords.tex}

@@ -49,8 +49,8 @@ L'obiettivo principale di Fiji è migliorare l'esperienza utente dei ricercatori
 \subsection{Primi passi}
 \noindent Prima di tutto si deve creare un progetto Java con un IDE a piacimento (\textit{``IntellJ IDEA''} o \textit{``Eclipse''} ad esempio) e creare un file pom.xml all'interno della radice del progetto. Per vedere un esempio pratico di questo osservare \textit{UnibosDS4H/DS4H} oppure \textit{imagej/example-imagej2-command}.
 
-\begin{minipage}{\linewidth}
-\begin{lstlisting}[language=XML,caption={Esempio parziale di file pom.xml UnibosDS4H/DS4H su Github}, label={lst:pom}]
+\begin{listing}[H]
+\begin{minted}{xml}
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 ...
@@ -77,37 +77,41 @@ L'obiettivo principale di Fiji è migliorare l'esperienza utente dei ricercatori
         </dependency>
     </dependencies>
 </project>
-\end{lstlisting}
-\end{minipage}
+\end{minted}
+\caption{Esempio parziale di file pom.xml UnibosDS4H/DS4H su Github} \label{lst:pom}
+\end{listing}
 
 \subsection{Il codice sorgente}
-\noindent Si può scegliere di usare ImageJ2 o ImageJ 1.x, il quale viene tradotto automaticamente tramite un componente interno chiamato \textit{``Java Assist''}. Il primo esempio (\ref{lst:ImageJ2}) è quello consigliato al momento ed è la via preferibile, mentre il secondo esempio (\ref{lst:ImageJ1} e~\ref{lst:ImageJ1Config}) è la versione Legacy che si può usare senza temere ma non permette di sfruttare le ultime features.
+\noindent Si può scegliere di usare ImageJ2 o ImageJ 1.x, il quale viene tradotto automaticamente tramite un componente interno chiamato \textit{``Java Assist''}. Il primo esempio (\Cref{lst:ImageJ2}) è quello consigliato al momento ed è la via preferibile, mentre il secondo esempio (\Cref{lst:ImageJ1} e~\Cref{lst:ImageJ1Config}) è la versione Legacy che si può usare senza temere ma non permette di sfruttare le ultime features.
 
+\begin{listing}[H]
+\begin{minted}{java}
+package hello;
 
-\begin{lstlisting}[language=Java,caption={Esempio semplice di un plugin Fiji in cui si fa uso di ImageJ2},label={lst:ImageJ2}]
-    package hello;
-    
-    import org.scijava.command.Command;
-    import net.imagej.ImageJ;
-    
-    @Plugin(type = Command.class)
-    public class HelloWorld implements Command {
-        /**
-            * Main method is actually used only for debugging
-            **/
-        public static void main(final String... args) {
-            final ImageJ ij = new ImageJ();
-            ij.launch(args);
-            ij.command().run(HelloWorld.class, true);
-        }
-        @Override
-        public void run() {
-            // ...
-        }
+import org.scijava.command.Command;
+import net.imagej.ImageJ;
+
+@Plugin(type = Command.class)
+public class HelloWorld implements Command {
+    /**
+        * Main method is actually used only for debugging
+        **/
+    public static void main(final String... args) {
+        final ImageJ ij = new ImageJ();
+        ij.launch(args);
+        ij.command().run(HelloWorld.class, true);
     }
-\end{lstlisting}
-
-\begin{lstlisting}[language=Java,caption={Esempio semplice di un plugin Fiji in cui viene utilizzato ImageJ 1.x}, label={lst:ImageJ1}]
+    @Override
+    public void run() {
+        // ...
+    }
+}
+\end{minted}
+\caption{Esempio semplice di un plugin Fiji in cui si fa uso di ImageJ2} \label{lst:ImageJ2}
+\end{listing}
+    
+\begin{listing}[H]
+\begin{minted}{java}
 package hello;
 
 import ij.IJ;
@@ -119,11 +123,16 @@ public class HelloWorld implements PlugIn {
     	// ...
     }
 }
-\end{lstlisting}
+\end{minted}
+\caption{Esempio semplice di un plugin Fiji in cui viene utilizzato ImageJ 1.x} \label{lst:ImageJ1}
+\end{listing}
 
-\begin{lstlisting}[caption={Esempio di file plugins.config obbligatorio nel caso dell'uso di ImageJ 1.x}, label={lst:ImageJ1Config}]
+\begin{listing}[H]
+\begin{minted}{text}
 	Plugins>Hello, "Hello World", hello.HelloWorld
-\end{lstlisting}
+\end{minted}
+\caption{Esempio di file plugins.config obbligatorio nel caso dell'uso di ImageJ 1.x} \label{lst:ImageJ1Config}
+\end{listing}
 
 \subsection{Transizione da ImageJ 1.x a ImageJ2}
 \noindent Per chi ha già esperienza con la prima versione, qui può trovare una cheat sheet utile per effettuare la transizione alla seconda \Cref{fig:6} e \Cref{fig:7}.
@@ -144,9 +153,10 @@ public class HelloWorld implements PlugIn {
 
 
 \subsection{Build}
-\noindent All'interno del file pom.xml dev'essere presente una parte di codice per eseguire il processo di creazione del file JAR, una di queste permette di includere agli assets \ref{lst:build}.
+\noindent All'interno del file pom.xml dev'essere presente una parte di codice per eseguire il processo di creazione del file JAR, una di queste permette di includere agli assets \Cref{lst:build}.
 
-\begin{lstlisting}[language=XML, caption={"pom.xml, sottosezione build"}, label=lst:build]
+\begin{listing}[H]
+\begin{minted}{xml}
 <build>
 	<resources>
         <resource>
@@ -157,12 +167,15 @@ public class HelloWorld implements PlugIn {
         </resource>
     </resources>
 </build>
-\end{lstlisting}
+\end{minted}
+\caption{pom.xml, sottosezione build}\label{lst:build}
+\end{listing}
 
 \noindent Per creare il file JAR nella giusta cartella occorre creare, se non già presente in questo percorso
-\textbf{HOME/.m2}, un file chiamato \textbf{settings.xml} come mostrato in \ref{lst:scijavadir}
+\textbf{HOME/.m2}, un file chiamato \textbf{settings.xml} come mostrato in \Cref{lst:scijavadir}
 
-\begin{lstlisting}[language=XML, caption={"settings.xml valido per Fiji}, label={lst:scijavadir}]
+\begin{listing}[H]
+\begin{minted}{xml}
 <settings>
     <profiles>
         <profile>
@@ -178,7 +191,9 @@ public class HelloWorld implements PlugIn {
         </profile>
     </profiles>
 </settings>
-\end{lstlisting}
+\end{minted}
+\caption{settings.xml valido per Fiji}\label{lst:scijavadir}
+\end{listing}
 
 \noindent Come compilare un file Maven dipende dall'IDE di riferimento. In questo paragrafo spiegheremo come si fa con \textit{IntellJ IDEA}, il quale fornisce tre modalità. La prima è tramite Run → Edit Configurations -> Maven, la quale non ha bisogno normalmente di specifici comandi per l'inizializzazione, e permette una volta eseguito di creare il file JAR. La seconda modalità è attraverso il plugin stesso, mostrato in \Cref{fig:8}, dove l'UI permette agli utenti meno esperti di usufruire dei comandi e dei profili Maven senza avere conoscenze pregresse.
 
@@ -189,10 +204,14 @@ public class HelloWorld implements PlugIn {
     \label{fig:8}
 \end{figure}
 
-\noindent L'ultima modalità è quella di digitare i comandi specifici direttamente dal terminale, ad esempio \ref{lst:mvn}:
-\begin{lstlisting}[label={lst:mvn}, caption={Esempio per pulire, compilare e creare il file JAR}]
+\noindent L'ultima modalità è quella di digitare i comandi specifici direttamente dal terminale, ad esempio \Cref{lst:mvn}:
+
+\begin{listing}[H]
+\begin{minted}{bash}
     mvn clean & mvn compile & mvn install
-\end{lstlisting}
+\end{minted}
+\caption{Esempio per pulire, compilare e creare il file JAR}\label{lst:mvn}
+\end{listing}
 
 \subsection{Service}
 \noindent A differenza di \textit{ImageJ 1.x}, dove per accedere alla maggior parte delle sue funzionalità si usano dei metodi statici, per \textit{ImageJ2} ogni parte ha la sua logica di business incapsulata in un servizio. Un servizio non è altro che una classe con una serie di responsabilità legate ad un solo argomento. \textit{ImageJ2} dispone di tantissimi Service, tra questi possiamo ricordare:

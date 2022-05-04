@@ -13,14 +13,18 @@
 
 \subsection{Compilazione dalla sorgente}
 \noindent \textit{OpenCV} è rilasciato in forma già compilata per Android, iOS e Windows mentre per qualsiasi altra piattaforma (o per quando è richiesto l'uso della libreria \textit{OpenCV Contrib}) è necessario compilare personalmente il codice sorgente. Per implementare il modulo per l'allineamento automatico delle immagini, è stato necessario scaricare entrambi i sorgenti e per produrre un file JAR e le librerie relative alle piattaforme di esecuzione, ad esempio i file *.dll per Windows e i file *.dylib per i MacOS X con architettura ARM\@.
-A questo scopo, occorre avere una distribuzione Java installata sul proprio sistema operativo, scaricare il programma \textit{``CMake''}, ed un terminale. Una volta scaricate le librerie \textit{OpenCV} e \textit{OpenCV Contrib} in formato zip ed estratte dagli archivi, è utile mantenere per comodità entrambe le cartelle risultanti all'interno di una cartella padre. Una volta completata questa operazione occorre aprire il terminale e specificare come percorso corrente la cartella padre. A questo punto si possono eseguire in sequenza i comandi~\ref{lst:mdkdirbuild},~\ref{lst:extract} e~\ref{lst:compile}. I file prodotti come risultato dell'esecuzione di questi comandi si troverà all'interno della cartella ``{Nome Cartella Padre}/build/lib'' e potranno essere usati nel proprio progetto. Nel nostro caso di studio, è bene ricordarsi di copiare questi files (e.g.\ opencv\_core455.dll, opencv\_java455.dll) all'interno della cartella ``Fiji.app/libs''.
+A questo scopo, occorre avere una distribuzione Java installata sul proprio sistema operativo, scaricare il programma \textit{``CMake''}, ed un terminale. Una volta scaricate le librerie \textit{OpenCV} e \textit{OpenCV Contrib} in formato zip ed estratte dagli archivi, è utile mantenere per comodità entrambe le cartelle risultanti all'interno di una cartella padre. Una volta completata questa operazione occorre aprire il terminale e specificare come percorso corrente la cartella padre. A questo punto si possono eseguire in sequenza i comandi~\Cref{lst:mdkdirbuild},~\Cref{lst:extract} e~\Cref{lst:compile}. I file prodotti come risultato dell'esecuzione di questi comandi si troverà all'interno della cartella ``{Nome Cartella Padre}/build/lib'' e potranno essere usati nel proprio progetto. Nel nostro caso di studio, è bene ricordarsi di copiare questi files (e.g.\ opencv\_core455.dll, opencv\_java455.dll) all'interno della cartella ``Fiji.app/libs''.
 
-\begin{lstlisting}[label={lst:mdkdirbuild}, caption={Creazione cartella Build}]
+\begin{listing}[H]
+\begin{minted}{bash}
     mkdir build && cd build
-\end{lstlisting}
+\end{minted}
+\caption{Creazione cartella Build}\label{lst:mdkdirbuild}
+\end{listing}
 
-\begin{minipage}{\linewidth}
-\begin{lstlisting}[label={lst:extract}, caption={Esempio di creazione di build estrazione dalla sorgente per piattaforma MacOs X con processore M1}]
+
+\begin{listing}[H]
+\begin{minted}{bash}
     cmake -DCMAKE_SYSTEM_PROCESSOR=arm64 \
     -DCMAKE_OSX_ARCHITECTURES=arm64 \
     -DWITH_OPENJPEG=OFF \
@@ -39,23 +43,29 @@ A questo scopo, occorre avere una distribuzione Java installata sul proprio sist
     -D BUILD_opencv_python3=OFF \
     -D BUILD_ZLIB=OFF \
     -D BUILD_EXAMPLES=ON ../opencv-4.5.5
-\end{lstlisting}
-\end{minipage}
+\end{minted}
+\caption{Esempio di creazione di build estrazione dalla sorgente per piattaforma MacOs X con processore M1}\label{lst:extract}
+\end{listing}
 
-\begin{lstlisting}[label={lst:compile}, caption={Esempio compilazione sorgente per piattaforma MacOs X con processore M1, usufruibile anche per altre piattaforme UNIX e LINUX}]
+
+\begin{listing}[H]
+\begin{minted}{bash}
     make -j8
-\end{lstlisting}
+\end{minted}
+\caption{Esempio compilazione sorgente per piattaforma MacOs X con processore M1, usufruibile anche per altre piattaforme UNIX e LINUX}\label{lst:compile}
+\end{listing}
 
 \section{Loader}
 \noindent \textit{DS4H Image Alignment} è un plugin pensato per essere multipiattaforma e questo requisito deve rimanere tale anche per le librerie di terze parti importate. \textit{OpenCV} per essere utilizzata richiede di essere caricata prima del plugin stesso, per ovviare a questo problema abbiamo usato uno static block all'interno della classe principale chiamata ``ImageAlignment''. Lo static block viene chiamato prima del costruttore della classe, e di conseguenza permette di gestire errori legati all'importazione prima di avviare il plugin. A questo punto si è scelto di usare lo \textbf{``Strategy Pattern''} che permette di scegliere in fase d'esecuzione la classe giusta, nel nostro caso ci ha permesso di definire due classi, una per le librerie per la piattaforma Windows e l'altra per la piattaforma Mac OS X basata su processori ARM\@.
 
-\begin{minipage}{\linewidth}
-\begin{lstlisting}[language=Java,label={lst:static-call}, caption={Esempio di static block proveniente dal nostro caso di studio}]
+\begin{listing}[H]
+\begin{minted}{java}
     static {
         ImageAlignment.loader();
     }
-\end{lstlisting}
-\end{minipage}
+\end{minted}
+\caption{Esempio di static block proveniente dal nostro caso di studio}\label{lst:static-call}
+\end{listing}
 
 \section{AlignBuilder}
 \noindent La versione precedente del plugin \textit{DS4H Image Alignment} permetteva solo la co-registrazione tramite corner points. Al fine di rispettare l'\textbf{Open-Closed Principle}, uno dei cinque principi \textbf{SOLID}, si è scelto di usare il \textbf{``Builder Pattern''}. I principi SOLID la base di un software nella programmazione ad oggetti. Il \textbf{Builder Pattern} richiede che ci sia un oggetto comune a tutte le classi che lo implementano/estendono, e nel caso di \textit{DS4H Image Alignment} si è scelto di racchiudere il tutto in una abstract class chiamata \textit{AbstractBuilder} che mantenesse le funzionalità comuni come il salvataggio delle immagini risultanti. Tale scelta permette di poter creare classi specifiche per l'allineamento, qualunque sia l'algoritmo scelto, senza dover modificare le classi già presenti.
@@ -64,7 +74,6 @@ A questo scopo, occorre avere una distribuzione Java installata sul proprio sist
 \noindent Nel nostro algoritmo si è scelto di fare la comparazione delle caratteristiche delle immagini a gruppi di due, dove la prima immagine è in realtà sempre la stessa e non viene modificata, mentre la seconda è quella a cui si applicano le deformazioni rispetto alle proporzioni della prima. Alla base della nuova modalità di allineamento automatico c'è stata la scelta di usare l'algoritmo già definito in precedenza chiamato \textit{FREAK}. Tale algoritmo è stato sfruttato in fase di definizione delle corrispondenze delle caratteristiche tra due immagini. Per la fase antecedente ad essa si è scelto un algoritmo chiamato \textit{``StarDetector''} che si occupa di ricercare le caratteristiche, algoritmo basato su \cite{10.1007/978-3-540-88693-8_8}, scelto poiché forniva risultanti soddisfacenti in tempi molto rapidi. Una volta costruiti i descrittori delle corrispondenze ed effettuata la fase di feature matching tramite distanza di Hamming, come già descritto nel Capitolo 1, si procede eliminando i falsi positivi filtrandoli attraverso l'esecuzione del ``Lowe's ratio test'', test dove si controlla che la distanza della prima corrispondenza non sia maggiore di una seconda corrispondenza moltiplicata per 0.75. Se si trovano almeno 4 corrispondenze si procedere con la deformazione. Il risultato ottenuto è visibile tramite la finestra di allineamento, le cui funzionalità sono già state descritte nel Capitolo 3. 
 
 \section{Il codice in dettaglio}
-\Crefname{listing}{Codice}{Codice}
 \noindent Partendo da un diagramma di flusso, descriveremo in dettaglio le principali parti di codice legate al modulo creato per l'allineamento automatico \Cref{fig:24}.
 
 \begin{figure}[H]
