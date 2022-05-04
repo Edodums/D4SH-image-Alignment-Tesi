@@ -1,26 +1,25 @@
-\chapter{Descrizione del modulo allineamento automatico}
+\chapter{Descrizione del modulo per allineamento automatico}
 \label{chap:descriptionnewtool} 
-\noindent Questo capitolo rappresenta il nostro caso di studio, che riguarda la feature di allineamento automatico. La funzionalità in questione è stata costruita con l'ausilio di \textit{``OpenCV''}, la libreria di \textit{Computer Vision} per definizione. Tra gli argomenti trattati sono presenti anche le scelte fatte utili alla costruzione della funzionalità.
+\noindent Questo capitolo descrive il cuore di questo lavoro di Tesi, precisamente descrive il modulo implementato per feature l'allineamento automatico delle immagini. La funzionalità in questione è stata realizzata con l'ausilio di \textit{``OpenCV''}, la più famosa libreria di \textit{Computer Vision}. Tra gli argomenti trattati riporteremo ampie digressioni sulle scelte implementative fatte, utili alla costruzione della funzionalità.
 
-\section{OpenCV}
-\noindent Il campo della \textit{Computer vision} è un sottoinsieme del campo dell'AI (\textit{Artificial Intelligence}) ed è il tramite secondo il quale un'AI può prendere decisioni rispetto a ciò che ``osserva''. L'intenzione principale è imitare il nostro senso della vista, e come per noi esseri umani che sin da piccoli abbiamo imparato a classificare e distinguere le informazioni tramite retine, nervi ottici e corteccia visiva, la Computer Vision lo fa tramite algoritmi~\cite{IBM_CV}.
+\section{Computer Vision}
+\noindent La \textit{Computer Vision} è un sottoinsieme del campo dell'AI (\textit{Artificial Intelligence}) ed è il tramite secondo il quale un'AI può prendere decisioni rispetto a ciò che ``osserva''. L'intenzione principale è imitare il nostro senso della vista, e come per noi esseri umani che sin da piccoli abbiamo imparato a classificare e distinguere le informazioni tramite retine, nervi ottici e corteccia visiva, la Computer Vision lo fa tramite algoritmi~\cite{IBM_CV}.
 
 \subsection{OpenCV Library}
-\noindent \textit{OpenCV} (Open Source Computer Vision Library) è una libreria che contiene più di 2500 algoritmi di Computer Vision e \textit{Machine Learning}, la cui peculiarità è il fatto di essere Open Source. Il suo utilizzo è molto variegato e spazia dalla rilevazione di movimenti, oggetti e visi, al classificare i soggetti presenti in una sorgente video e ad operazioni di stiching tra immagini ecc. La libreria ha una community composta da più di 47 mila persone, ed è usata sia per motivi commerciali che per la ricerca scientifica.
-La maggior parte dei programmi legati alla Computer Vision basano i loro progetti su questa libreria, e la possibilità di usarlo in linguaggi come C++, Java, Python, Javascript e MATLAB e sistemi operativi come Windows, Linux, Mac OS X, iOS e Android rendeno la sua adozione la scelta preferita per applicazioni in cui è richiesto un uso intensivo di elaborazione di immagini e video in tempo reale~\cite{opencv_library}.
+\noindent \textit{OpenCV} (Open Source Computer Vision Library) è una libreria che contiene più di 2500 algoritmi di Computer Vision e \textit{Machine Learning} in generale, la cui peculiarità è il fatto di essere Open Source. Il suo utilizzo è molto variegato e spazia dalla rilevazione di movimenti, oggetti e visi, al classificare i soggetti presenti in una sorgente video e ad operazioni di stitching tra immagini, etc. La libreria ha una community composta da più di 47 mila persone, ed è usata sia per motivi commerciali sia per ricerca scientifica. La maggior parte dei programmi legati alla Computer Vision basano la propria implementazione su questa libreria, e la possibilità di usarla in linguaggi come C++, Java, Python, Javascript e MATLAB e sistemi operativi come Windows, Linux, Mac OS X, iOS e Android, rendono la sua adozione la scelta preferita per applicazioni in cui è richiesto un uso intensivo di elaborazione di immagini e video in tempo reale~\cite{opencv_library}.
 
 \subsection{OpenCV Extra Features Library}
-\noindent \textit{OpenCV} contiene tantissimi moduli al suo interno e sono tutti usufruibili senza alcuna licenza anche per prodotti commerciali, ma ci sono delle eccezioni.
-Tutte le eccezioni sono contenute all'interno di una libreria chiamata \textit{``OpenCV Contrib''} e contiene tutti quei moduli con funzionalità che potrebbero essere non stabili, oppure la cui licenza è a pagamento per uso commerciale ma non per prodotti open-source. In questa libreria si trovano due degli algoritmi usati al fine di creare la nuova funzionalità cioè \textit{FREAK} e \textit{``StarDetector''}.
+\noindent \textit{OpenCV} contiene tantissimi moduli al suo interno e sono tutti usufruibili senza alcuna licenza anche per prodotti commerciali, ma ci sono delle eccezioni. Tutte le eccezioni sono contenute all'interno di una libreria chiamata \textit{``OpenCV Contrib''} che contiene tutti i moduli con funzionalità che potrebbero essere non stabili, oppure la cui licenza è a pagamento per uso commerciale ma non per prodotti poi a sua volta resi open-source. In questa libreria si trovano due degli algoritmi in questo lavoro di Tesi al fine di creare il modulo per l'allineamento automatico delle immagini, \textit{FREAK} e \textit{``StarDetector''}.
 
 \subsection{Compilazione dalla sorgente}
-\noindent \textit{OpenCV} è rilasciato in forme già pronte per Android, iOS e Windows mentre per qualsiasi altra piattaforma o per quando è richiesto l'uso della libreria \textit{OpenCV Contrib} è necessario compilare i sorgenti scaricabili. Per portare a compimento la funzionalità del nostro caso di studio è stato necessario scaricare entrambi i sorgenti, per produrre un file JAR e le librerie relative alle piattaforme di esecuzione, ad esempio i file *.dll per Windows e i file *.dylib per i MacOS X con architettura ARM\@.
-I prerequisiti utili alla compilazione sono primo fra tutti, quello di avere una distribuzione Java installata sul proprio sistema operativo, scaricare il programma \textit{``CMake''}, ed un terminale. Una volta scaricate le librerie \textit{OpenCV} e \textit{OpenCV Contrib} in formato zip e estratte dagli archivi, è utile mantenere per comodità entrambe le cartelle risultanti all'interno di una cartella padre. Una volta completata questa operazione occorre aprire il terminale e specificare come percorso corrente la cartella padre. A questo punto si possono eseguire in sequenza i comandi~\ref{lst:mdkdirbuild},~\ref{lst:extract} e~\ref{lst:compile}. Il risultato di questi comandi, una volta terminati si troverà all'interno della cartella ``{Nome Cartella Padre}/build/lib'' e potranno essere usati nel proprio progetto. Nel nostro caso di studio, è bene ricordarsi di copiare questi files (e.g.\ opencv\_core455.dll, opencv\_java455.dll) all'interno della cartella ``Fiji.app/libs''.
+\noindent \textit{OpenCV} è rilasciato in forma già compilata per Android, iOS e Windows mentre per qualsiasi altra piattaforma (o per quando è richiesto l'uso della libreria \textit{OpenCV Contrib}) è necessario compilare personalmente il codice sorgente. Per implementare il modulo per l'allineamento automatico delle immagini, è stato necessario scaricare entrambi i sorgenti e per produrre un file JAR e le librerie relative alle piattaforme di esecuzione, ad esempio i file *.dll per Windows e i file *.dylib per i MacOS X con architettura ARM\@.
+A questo scopo, occorre avere una distribuzione Java installata sul proprio sistema operativo, scaricare il programma \textit{``CMake''}, ed un terminale. Una volta scaricate le librerie \textit{OpenCV} e \textit{OpenCV Contrib} in formato zip ed estratte dagli archivi, è utile mantenere per comodità entrambe le cartelle risultanti all'interno di una cartella padre. Una volta completata questa operazione occorre aprire il terminale e specificare come percorso corrente la cartella padre. A questo punto si possono eseguire in sequenza i comandi~\ref{lst:mdkdirbuild},~\ref{lst:extract} e~\ref{lst:compile}. I file prodotti come risultato dell'esecuzione di questi comandi si troverà all'interno della cartella ``{Nome Cartella Padre}/build/lib'' e potranno essere usati nel proprio progetto. Nel nostro caso di studio, è bene ricordarsi di copiare questi files (e.g.\ opencv\_core455.dll, opencv\_java455.dll) all'interno della cartella ``Fiji.app/libs''.
 
 \begin{lstlisting}[label={lst:mdkdirbuild}, caption={Creazione cartella Build}]
     mkdir build && cd build
 \end{lstlisting}
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[label={lst:extract}, caption={Esempio di creazione di build estrazione dalla sorgente per piattaforma MacOs X con processore M1}]
     cmake -DCMAKE_SYSTEM_PROCESSOR=arm64 \
     -DCMAKE_OSX_ARCHITECTURES=arm64 \
@@ -41,32 +40,351 @@ I prerequisiti utili alla compilazione sono primo fra tutti, quello di avere una
     -D BUILD_ZLIB=OFF \
     -D BUILD_EXAMPLES=ON ../opencv-4.5.5
 \end{lstlisting}
+\end{minipage}
 
 \begin{lstlisting}[label={lst:compile}, caption={Esempio compilazione sorgente per piattaforma MacOs X con processore M1, usufruibile anche per altre piattaforme UNIX e LINUX}]
     make -j8
 \end{lstlisting}
 
 \section{Loader}
-\noindent \textit{DS4H Image Alignment} è un plugin pensato per essere multipiattaforma, questo requisito rimane tale anche per le librerie di terze parti importate. \textit{OpenCV} per essere utilizzata richiede di essere caricata prima del plugin stesso, per ovviare a questo problema abbiamo usato uno static block all'interno della classe principale chiamata ``ImageAlignment''. Lo static block viene chiamato prima del costruttore della classe, e di conseguenza permette di gestire errori legati all'importazione prima di avviare il plugin. 
-A questo punto si è scelto di usare lo \textbf{``Strategy Pattern''} che permette di scegliere in fase d'esecuzione la classe giusta, nel nostro caso ci ha permesso di definire due classi una per le librerie per la piattaforma Windows e l'altra per la piattaforma Mac OS X basata su processori ARM\@.
+\noindent \textit{DS4H Image Alignment} è un plugin pensato per essere multipiattaforma e questo requisito deve rimanere tale anche per le librerie di terze parti importate. \textit{OpenCV} per essere utilizzata richiede di essere caricata prima del plugin stesso, per ovviare a questo problema abbiamo usato uno static block all'interno della classe principale chiamata ``ImageAlignment''. Lo static block viene chiamato prima del costruttore della classe, e di conseguenza permette di gestire errori legati all'importazione prima di avviare il plugin. A questo punto si è scelto di usare lo \textbf{``Strategy Pattern''} che permette di scegliere in fase d'esecuzione la classe giusta, nel nostro caso ci ha permesso di definire due classi, una per le librerie per la piattaforma Windows e l'altra per la piattaforma Mac OS X basata su processori ARM\@.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=Java,label={lst:static-call}, caption={Esempio di static block proveniente dal nostro caso di studio}]
     static {
         ImageAlignment.loader();
     }
 \end{lstlisting}
+\end{minipage}
 
 \section{AlignBuilder}
-\noindent La versione precedente del plugin \textit{DS4H Image Alignment} permetteva solo la co-registrazione tramite corner points. Al fine di rispettare l'\textbf{Open-Closed Principle}, uno dei cinque principi \textbf{SOLID}, si è scelto di usare il \textbf{``Builder Pattern''}. I principi SOLID sono alla base di un software nella programmazione ad oggetti. Il \textbf{Builder Pattern} richiede che ci sia un oggetto comune a tutte le classi che lo implementano/estendono, e nel caso di \textit{DS4H Image Alignment} si è scelto di racchiudere il tutto in una abstract class chiamata \textit{AlignBuilder} che mantenesse le funzionalità comuni come il salvataggio delle immagini risultanti. Tale scelta permette di poter creare classi specifiche per l'allineamento, qualunque sia l'algoritmo scelto, senza dover modificare le classi già presenti.
+\noindent La versione precedente del plugin \textit{DS4H Image Alignment} permetteva solo la co-registrazione tramite corner points. Al fine di rispettare l'\textbf{Open-Closed Principle}, uno dei cinque principi \textbf{SOLID}, si è scelto di usare il \textbf{``Builder Pattern''}. I principi SOLID la base di un software nella programmazione ad oggetti. Il \textbf{Builder Pattern} richiede che ci sia un oggetto comune a tutte le classi che lo implementano/estendono, e nel caso di \textit{DS4H Image Alignment} si è scelto di racchiudere il tutto in una abstract class chiamata \textit{AbstractBuilder} che mantenesse le funzionalità comuni come il salvataggio delle immagini risultanti. Tale scelta permette di poter creare classi specifiche per l'allineamento, qualunque sia l'algoritmo scelto, senza dover modificare le classi già presenti.
 
 \section{Algoritmo di allineamento automatico}
-\noindent Nel nostro algoritmo si è scelto di fare la comparazione delle caratteristiche delle immagini a gruppi di due, dove la prima immagine è in realtà sempre la stessa e non viene modificata, mentre la seconda è quella a cui si applicano le deformazioni rispetto alle proporzioni della prima. Alla base della nuova modalità di allineamento automatico c'è stata la scelta di usare l'algoritmo già definito in precedenza chiamato \textit{FREAK}. Tale algoritmo è stato sfruttato in fase di definizione delle corrispondenze delle caratteristiche tra due immagini. Per la fase antecedente ad essa si è scelto un algoritmo chiamato \textit{``StarDetector''} che si occupa di ricercare le caratteristiche, algoritmo basato su \cite{10.1007/978-3-540-88693-8_8}, scelto poiché forniva risultanti soddisfacenti in tempi molto rapidi. Una volta costruiti i descrittori delle corrispondenze ed effettuata la fase di feature matching tramite distanza di Hamming, come già descritto nel Capitolo 1, si procede eliminando i falsi positivi filtrandolo usando il ``Lowe's ratio test'' dove si controlla la distanza della prima corrispondenza non sia maggiore di una seconda corrispondenza moltiplicata per 0.75. Se si sono trovate almeno 4 corrispondenze a questo punto si può procedere con la deformazione. Il risultato ottenuto è visibile tramite la finestra di allineamento, le cui funzionalità sono già state descritte nel Capitolo 3. 
+\noindent Nel nostro algoritmo si è scelto di fare la comparazione delle caratteristiche delle immagini a gruppi di due, dove la prima immagine è in realtà sempre la stessa e non viene modificata, mentre la seconda è quella a cui si applicano le deformazioni rispetto alle proporzioni della prima. Alla base della nuova modalità di allineamento automatico c'è stata la scelta di usare l'algoritmo già definito in precedenza chiamato \textit{FREAK}. Tale algoritmo è stato sfruttato in fase di definizione delle corrispondenze delle caratteristiche tra due immagini. Per la fase antecedente ad essa si è scelto un algoritmo chiamato \textit{``StarDetector''} che si occupa di ricercare le caratteristiche, algoritmo basato su \cite{10.1007/978-3-540-88693-8_8}, scelto poiché forniva risultanti soddisfacenti in tempi molto rapidi. Una volta costruiti i descrittori delle corrispondenze ed effettuata la fase di feature matching tramite distanza di Hamming, come già descritto nel Capitolo 1, si procede eliminando i falsi positivi filtrandoli attraverso l'esecuzione del ``Lowe's ratio test'', test dove si controlla che la distanza della prima corrispondenza non sia maggiore di una seconda corrispondenza moltiplicata per 0.75. Se si trovano almeno 4 corrispondenze si procedere con la deformazione. Il risultato ottenuto è visibile tramite la finestra di allineamento, le cui funzionalità sono già state descritte nel Capitolo 3. 
+
+\section{Il codice in dettaglio}
+\Crefname{listing}{Codice}{Codice}
+\noindent Partendo da un diagramma di flusso, descriveremo in dettaglio le principali parti di codice legate al modulo creato per l'allineamento automatico \Cref{fig:24}.
+
+\begin{figure}[H]
+\centering
+\begin{tikzpicture}[node distance=2.6cm]
+    \node(start)[startstop] {bottone "AUTO ALIGN IMAGES"};
+    \node(in1)[io, below of=start] {Avvio della procedura di allineamento automatico tramite pressione nella GUI dell’apposito bottone};
+    \node(proc1) [process, below of=in1] {Attivazione del thread di allineamento automatico};
+    \node(proc2) [process, below of=proc1] {Init};
+    \node(proc3) [process, below of=proc2] {Align};
+    \node(proc4) [process, below of=proc3] {Build};
+    \node(out1)[io, below of=proc4] {La finestra con i risultati di allineamento viene mostrata};
+    \node(stop)[startstop, below of=out1] {Stop};
+
+    \draw [arrow] (start) -- (in1);
+    \draw [arrow] (in1) --  (proc1);
+    \draw [arrow] (proc1) --  (proc2);
+    \draw [arrow] (proc2) --  (proc3);
+    \draw [arrow] (proc3) --  (proc4);
+    \draw [arrow] (proc4) --  (out1);
+    \draw [arrow] (out1) --  (stop);
+\end{tikzpicture}
+\caption{Diagramma di flusso modulo d'allineamento automatico}\label{fig:24}
+\end{figure}
+
+
+\subsection{Evento allineamento automatico}
+\noindent Prima di tutto viene registrato l'evento legato alla pressione del bottone (\Cref{lst:btnAutoAlignment}).
+
+\begin{listing}[H]
+\begin{minted}{java}
+    // MainDialog.java
+    final JButton btnAutoAlignment = new JButton("AUTO ALIGN IMAGES");
+    btnAutoAlignment.setToolTipText("Align the images automatically without thinking what it is needed to be done");
+    btnAutoAlignment.setEnabled(true);
+    btnAutoAlignment.addActionListener(e -> this.eventListener.onMainDialogEvent(new AutoAlignEvent()));
+\end{minted}
+\caption{Porzione della classe MainDialog.java, classe che gestisce la GUI della finestra principale}
+\label{lst:btnAutoAlignment}
+\end{listing}
+
+\noindent Una volta premuto il bottone viene chiamato onMainDialogEvent, il quale ha al suo interno contiene un semplice switch case che in base al nome della classe richiama il metodo da eseguire. Nella porzione di codice presente in \Cref{lst:autoAlignEvemt} viene annotata la variabile di tipo \textit{AbstractBuilder} inizializzata mediante la classe \textit{FREAKBuilder}. \textit{FREAKBuilder} è la classe che gestisce in toto l'allineamento automatico. Dopo aver mostrato una finestra di caricamento, utile per l'esperienza utente, viene chiamato il metodo \textit{alignHandler} che gestisce l'ordine di chiamate ai metodi interni della classe \textit{FREAKBuilder}. Prima di tutto si settano le immagini temporanee utili per le computazioni intermedie, poi viene chiamata \textit{init} per l'inizializzazione, \textit{align} per l'allineamento e \textit{build} per l'importazione nella finestra di allineamento delle immagini co-registrate. 
+
+\begin{listing}[H]
+\begin{minted}{java}
+    // ImageAlignment.java
+    private void autoAlign(AutoAlignEvent event) {
+      AbstractBuilder builder = new FREAKBuilder(this.getLoadingDialog(), this.getManager(), event, this);
+      builder.getLoadingDialog().showDialog();
+      Utilities.setTimeout(() -> {
+        try {
+          this.alignHandler(builder);
+        } catch (Exception e) {
+          e.printStackTrace();
+          IJ.showMessage(e.getMessage());
+        }
+        builder.getLoadingDialog().hideDialog();
+      }, 10);
+    }
+    
+    private void alignHandler(AbstractBuilder builder) {
+      builder.setTempImages(this.tempImages);
+      builder.init();
+      builder.align();
+      builder.build();
+      this.alignDialog = builder.getAlignDialog();
+      this.tempImages = builder.getTempImages();
+    }
+\end{minted}
+\caption{Porzione della classe ImageAlignment.java, classe che gestisce l'evento proveniente da MainDialog.java}\label{lst:autoAlignEvemt}
+\end{listing}
+
+
+\subsection{Init}
+\noindent Sono tre i task utili alla fase d'inizializzazione (\Cref{lst:init}):
+\begin{itemize}
+    \item L'importazione delle immagini, dove vengono presi i percorsi immagini presenti nello stack, ovvero quelle disponibili nella finestra principale. Vengono quindi ricaricate in funzione di OpenCV che utilizza il suo tipo nativo Mat, tipo di dato per gestire le immagini. Al contempo viene salvata una copia di ``backup'', che servirà poi nelle fasi successive.
+    \item Si setta specifica la dimensione massima di un immagine, ciò definisce i limiti di altezza e larghezza per tutto lo stack di immagini.
+    \item Inizializza la variabile virtualStack, al cui interno verranno aggiunte le immagini alla fine del processo di allineamento.
+\end{itemize}
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{java}
+  // FREAKBuilder.java
+  @Override
+  public void init() {
+    this.importImages();
+    this.setMaximumSize(new Dimension(this.getSourceImage().width(), this.getSourceImage().height()));
+    this.setVirtualStack();
+  }
+
+  private void importImages() {
+    for (ImageFile imageFile : this.getManager().getImageFiles()) {
+      try {
+        Mat matImage = imread(imageFile.getPathFile(), IMREAD_GRAYSCALE);
+        this.pathMap.put(matImage.dataAddr(), imageFile.getPathFile());
+        this.images.add(matImage);
+      } catch (Exception e) {
+        IJ.showMessage(e.getMessage());
+      }
+    }
+  }
+
+  // AbstractBuilder.java 
+  private VirtualStack virtualStack;
+  private Dimension maximumSize;
+
+  protected void setMaximumSize(Dimension maximumSize) {
+    this.maximumSize = maximumSize;
+  }
+
+  protected void setVirtualStack() {
+    this.virtualStack = new VirtualStack(this.getMaximumSize().width, this.getMaximumSize().height, ColorModel.getRGBdefault(), IJ.getDir(TEMP_PATH));
+  }
+\end{minted}
+\caption{Porzione delle classi FREAKBuilder.java e AbstractBuilder.java, per la gestione dell'inizializzazione}\label{lst:init}
+\end{listing}
+
+\subsection{Align}
+\noindent Nella fase di allineamento \Cref{lst:autoAlign} si parte aggiungendo l'immagine ``sorgente'' al virtualStack, tramite il metodo \textit{newProcessHandler}, che trasforma l'oggetto Mat in un ogetto ImagePlus per poter sfruttare i metodi di \textit{ImageJ} (\Cref{lst:imageplusToMat}). La comparazione viene fatta tra due immagini, e si ottengono da subito sia la matrice dei punti d'interesse sia il descrittore binario (\Cref{lst:init}). Una volta eseguita il match tra i descrittori tramite distanza di Hamming, viene eseguito il filtraggio dei falsi positivi \Cref{lst:goodMatches}. Se i match rimanenti sono almeno quattro si continua a procedere nell'allineamento, dapprima si definiscono i limiti delle dimensioni delle immagini risultanti \Cref{lst:points}, e per ottenere i coefficenti di trasformazioene tra la seconda e la prima immagine si calcolano i valori della matrice di omografia (\Cref{lst:homography}). Terminata l'operazione si aggiunge l'immagine deformata allo stack virtuale.
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{java}
+@Override
+public void align() {
+    try {
+        this.newProcessHandler(this.getSourceImage());
+        for (int index = 1; index < images.size(); index++) {
+        final Mat firstImage = this.getSourceImage();
+        final Mat secondImage = images.get(index);
+        final MatOfKeyPoint firstKeyPoints = this.getKeypoint(firstImage);
+        final MatOfKeyPoint secondKeyPoints = this.getKeypoint(secondImage);
+        final Mat firstDescriptor = this.getDescriptor(firstImage, firstKeyPoints);
+        final Mat secondDescriptor = this.getDescriptor(secondImage, secondKeyPoints);
+        // match
+        final DescriptorMatcher matcher = DescriptorMatcher.create(DescriptorMatcher.BRUTEFORCE_HAMMING);
+        // convert to float to use flann ( FREAK is a binary descriptor )
+        if (firstDescriptor.type() != CV_8U) {
+            firstDescriptor.convertTo(firstDescriptor, CV_8U);
+        }
+        if (secondDescriptor.type() != CV_8U) {
+            secondDescriptor.convertTo(secondDescriptor, CV_8U);
+        }
+        // match descriptors and filter to avoid false positives
+        List<MatOfDMatch> knnMatches = new ArrayList<>();
+        try {
+            matcher.knnMatch(firstDescriptor, secondDescriptor, knnMatches, 2);
+        } catch (Exception e) {
+            IJ.showMessage("Check all your images, one of them seems to have not valuable matches for our algorithm");
+        }
+        List<DMatch> goodMatches = getGoodMatches(knnMatches);
+        if (goodMatches.size() > 4) {
+            final MatOfPoint2f points = new MatOfPoint2f(this.getPointsArray(firstImage));
+            Mat dest = new Mat();
+            Core.perspectiveTransform(points, dest, this.getHomography(goodMatches, firstKeyPoints.toList(), secondKeyPoints.toList()));
+            final Mat perspectiveM = Imgproc.getPerspectiveTransform(points, dest);
+            Mat warpedImage = new Mat();
+            // Literally takes the secondImage, the perspective transformation matrix, the size of the first image, then warps the second image to fit the first, 
+            Imgproc.warpPerspective(secondImage, warpedImage, perspectiveM, new Size(firstImage.width(), firstImage.height()), Imgproc.WARP_INVERSE_MAP, Core.BORDER_CONSTANT);
+            // the image's data address changes after but the image it's the same, I've done it to retrieve the same path
+            this.replaceKey(secondImage.dataAddr(), warpedImage.dataAddr());
+            // then to all the things need to create a virtual stack of images
+            this.newProcessHandler(warpedImage);
+        } else {
+            IJ.showMessage("Not enough matches");
+        }
+        }
+    } catch (Exception e) {
+        IJ.showMessage("Not all the images will be put in the aligned stack, something went wrong, check your image because it seems that we couldn't find a relation");
+    }
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, per la gestione dell'allineamento}\label{lst:autoAlign}
+\end{listing}
+
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{Java}
+private void newProcessHandler(Mat image) {
+    ImageProcessor newProcessor = new ColorProcessor(image.width(), image.height());
+    ImagePlus transformedImage = matToImagePlus(image);
+    newProcessor.insert(transformedImage.getProcessor(), 0, 0);
+    this.addToVirtualStack(new ImagePlus("", newProcessor), this.getVirtualStack());
+}
+
+private ImagePlus matToImagePlus(Mat image) {
+    final int type = image.type();
+    ImageProcessor result = null;
+    if (type == CV_8UC1) {
+        result = makeByteProcessor(image);
+    } else {
+        IJ.showMessage("Not supported for now");
+    }
+    return new ImagePlus("", result);
+}
+
+private ImageProcessor makeByteProcessor(Mat find) {
+    final int w = find.cols();
+    final int h = find.rows();
+    ByteProcessor bp = new ByteProcessor(w, h);
+    find.get(0, 0, (byte[]) bp.getPixels());
+    return bp;
+}
+
+private Mat getSourceImage() {
+    return this.images.get(0);
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, per la conversione da Mat a ImagePlus}\label{lst:imageplusToMat}
+\end{listing}
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{Java}
+private Mat getHomography(List<DMatch> goodMatches, List<KeyPoint> firstKeyPoints, List<KeyPoint> secondKeyPoints) {
+    final List<Point> obj = new ArrayList<>();
+    final List<Point> scene = new ArrayList<>();
+    final List<KeyPoint> listOfKeyPointsObject = new ArrayList<>(firstKeyPoints);
+    final List<KeyPoint> listOfKeyPointsScene = new ArrayList<>(secondKeyPoints);
+    for (int i = 0; i < goodMatches.size(); i++) {
+        obj.add(listOfKeyPointsObject.get(goodMatches.get(i).queryIdx).pt);
+        scene.add(listOfKeyPointsScene.get(goodMatches.get(i).trainIdx).pt);
+    }
+    MatOfPoint2f objMat = new MatOfPoint2f();
+    MatOfPoint2f sceneMat = new MatOfPoint2f();
+    objMat.fromList(obj);
+    sceneMat.fromList(scene);
+    final double freakThreshold = 0.005;
+    return Calib3d.findHomography(objMat, sceneMat, Calib3d.RANSAC, freakThreshold);
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, per l'ottenimento dell'omografia}\label{lst:homography}
+\end{listing}
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{Java}
+private Point[] getPointsArray(Mat firstImage) {
+    final Point[] pointsArray = new Point[4];
+    final int width = firstImage.width();
+    final int height = firstImage.height();
+    pointsArray[0] = new Point(0, 0);
+    pointsArray[1] = new Point(0, height);
+    pointsArray[2] = new Point(width, height);
+    pointsArray[3] = new Point(width, 0);
+    return pointsArray;
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, che gestisce i limiti delle dimensioni delle immagini in funzione di OpencCV}\label{lst:points}
+\end{listing}
+
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{Java}
+private List<DMatch> getGoodMatches(List<MatOfDMatch> knnMatches) {
+    List<DMatch> listOfGoodMatches = new ArrayList<>();
+    //-- Filter matches using the Lowe's ratio test
+    float ratioThresh = 0.75f;
+    for (int i = 0; i < knnMatches.size(); i++) {
+        if (knnMatches.get(i).rows() > 1) {
+            DMatch[] matches = knnMatches.get(i).toArray();
+            if (matches[0].distance < ratioThresh * matches[1].distance) {
+                listOfGoodMatches.add(matches[0]);
+            }
+        }
+    }
+    return listOfGoodMatches;
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, che esegue il filtraggio dei falsi positivi}\label{lst:goodMatches}
+\end{listing}
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{Java}
+private Mat getDescriptor(Mat image, MatOfKeyPoint keyPoints) {
+    final Mat tempDescriptor = new Mat();
+    final FREAK extractor = FREAK.create();
+    extractor.compute(image, keyPoints, tempDescriptor);
+    return tempDescriptor;
+}
+
+private MatOfKeyPoint getKeypoint(Mat image) {
+    final MatOfKeyPoint tempKeypoint = new MatOfKeyPoint();
+    final StarDetector detector = StarDetector.create();
+    detector.detect(image, tempKeypoint);
+    return tempKeypoint;
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, nella quale si ottiene la matrice dei punti d'interesse e il descrittore binario}\label{lst:initData}
+\end{listing}
+
+\subsection{Build}
+\noindent La fase finale riguarda esclusivamente la finestra di allineamento ed il salvataggio automatico dei file TIFF risultanti dalla procedura di allineamento \Cref{lst:buildVirtualStack}
+
+\begin{listing}[H]
+\begin{minted}[autogobble]{java}
+@Override
+public void build() {
+    try {
+        this.setTransformedImagesStack(new ImagePlus("", this.getVirtualStack()));
+        String filePath = IJ.getDir(TEMP_PATH) + this.getTransformedImagesStack().hashCode() + TIFF_EXT;
+        new ImageConverter(this.getTransformedImagesStack()).convertToRGB();
+        new FileSaver(this.getTransformedImagesStack()).saveAsTiff(filePath);
+        this.getTempImages().add(filePath);
+        this.getLoadingDialog().hideDialog();
+        this.setAlignDialog(new AlignDialog(this.getTransformedImagesStack(), this.getListener()));
+        this.getAlignDialog().pack();
+        this.getAlignDialog().setVisible(true);
+    } catch (Exception e) {
+        IJ.showMessage(e.getMessage());
+    }
+    this.getLoadingDialog().hideDialog();
+}
+\end{minted}
+\caption{Porzione delle classe FREAKBuilder.java, per la gestione della visualizzazione a finestra}\label{lst:buildVirtualStack}
+\end{listing}
 
 \section{Reload Stack}
-\noindent Il nostro algoritmo di allineamento automatico performa in maniera ottima fino a quando la variazione d'intensità tra le immagini non risulta eccessiva. È effettivamente un algoritmo di allineamento multimodale e l'unico caso in cui abbiamo trovato dei problemi è l'utilizzo di immagini \textit{DIC}. Per ovviare a questa problematica si possono effettuare questi passi :
+\noindent Il nostro algoritmo di allineamento automatico riesce a registrare le immagini con ottimi risultati fino a quando la variazione d'intensità tra le immagini stesse non risulta davvero eccessiva. L'unico caso pratico in cui abbiamo riscontrato dei problemi è stato legato all'utilizzo di immagini \textit{DIC}. Per ovviare a questa problema si possono effettuare questi passi:
 \begin{enumerate}
     \item Usare l'allineamento automatico per tutte le immagini non DIC\@.
     \item Usare la funzione ``Reuse as source'' che riusa tali immagini nello stack principale.
     \item Usare infine l'allineamento via corner points.
-    \item Consiglio Bonus: si possono usare le funzionalità di Fiji legate alla modifica delle immagini, come ad esempio cambiarne il contrasto della immagine DIC, l'allineamento avverrà comunque tra le immagini originali non modificate.
+    \item Consiglio: il plugin è perfettamente integrato con \textit{Fiji} e quindi si possono sempre sfruttare tutte le funzionalità di \textit{Fiji} legate alla modifica delle immagini, come ad esempio cambiarne il contrasto della immagine DIC. È importante notare che l'allineamento finale avverrà comunque tra le immagini originali non modificate.
 \end{enumerate}

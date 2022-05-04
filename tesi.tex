@@ -4,11 +4,11 @@
 % !TeX program = arara
 % !TeX options = --log --verbose --language=it "%DOC%"
 
-% arara: lualatex:      { interaction: batchmode }
-% arara: frontespizio:  { interaction: batchmode, engine: lualatex }
+% arara: lualatex:      { interaction: batchmode, shell: yes }
+% arara: frontespizio:  { interaction: batchmode, engine: lualatex, shell: yes }
 % arara: biber
-% arara: lualatex:      { interaction: batchmode }
-% arara: lualatex:      { interaction: nonstopmode, synctex: yes }
+% arara: lualatex:      { interaction: batchmode, shell: yes }
+% arara: lualatex:      { interaction: nonstopmode, synctex: yes, shell: yes }
 
 \documentclass[%
   a4paper,                % formato di pagina A4
@@ -24,7 +24,8 @@
 ]{scrbook}
 
 \usepackage{fancyvrb}       % fornisce l'ambiente VerbatimOut e modifica listati di codice
-% \usepackage{minted}       % evidenzia la sintassi dei listati di codice; richiede pygments installato e shell-escape
+\usepackage{minted}       % evidenzia la sintassi dei listati di codice; richiede pygments installato e shell-escape
+\usemintedstyle{monokai}
 
 \begin{VerbatimOut}{\jobname.xmpdata}
 \Title{Titolo}
@@ -48,6 +49,20 @@
 ]{xcolor}                       % permette di usare colori
 \usepackage[a-1b]{pdfx}         % permette di generare PDF/A
 \usepackage{shellesc}           % aggiunge il comando \write18 necessario su Overleaf per frontespizio
+
+\definecolor{bg}{RGB}{22,43,58}
+\setminted{bgcolor=bg, fontsize=\scriptsize, frame=single, breaklines}
+
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric, arrows}
+
+\tikzstyle{startstop} = [rectangle, rounded corners, minimum width=3cm, minimum height=1cm,text centered, draw=black]
+\tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{process} = [rectangle, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{decision} = [diamond, minimum width=3cm, minimum height=1cm, text centered, draw=black]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+
+\renewcommand\listingscaption{Codice}
 
 %% Font
 % non è necessario \usepackage[utf8]{inputenc} perché luaLaTeX accetta solo UTF-8
@@ -243,8 +258,10 @@
   \input{src/2-mainmatter/chapter-3.tex}
   \input{src/2-mainmatter/chapter-4.tex}
   \input{src/2-mainmatter/chapter-5.tex}
+  \input{src/2-mainmatter/chapter-conclusion.tex}
 
   \backmatter{}
   \input{src/3-backmatter/bibliografia.tex}
+  \input{src/3-backmatter/ringraziamenti.tex}
 
 \end{document}
