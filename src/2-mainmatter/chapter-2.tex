@@ -49,6 +49,7 @@ L'obiettivo principale di Fiji è migliorare l'esperienza utente dei ricercatori
 \subsection{Primi passi}
 \noindent Prima di tutto si deve creare un progetto Java con un IDE a piacimento (\textit{``IntellJ IDEA''} o \textit{``Eclipse''} ad esempio) e creare un file pom.xml all'interno della radice del progetto. Per vedere un esempio pratico di questo osservare \textit{UnibosDS4H/DS4H} oppure \textit{imagej/example-imagej2-command}.
 
+\begin{minipage}{\linewidth}
 \begin{lstlisting}[language=XML,caption={Esempio parziale di file pom.xml UnibosDS4H/DS4H su Github}, label={lst:pom}]
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
@@ -77,33 +78,34 @@ L'obiettivo principale di Fiji è migliorare l'esperienza utente dei ricercatori
     </dependencies>
 </project>
 \end{lstlisting}
+\end{minipage}
 
 \subsection{Il codice sorgente}
-\noindent Si può scegliere di usare ImageJ2 o ImageJ 1.x, il quale viene tradotto automaticamente tramite un componente interno chiamato \textit{``Java Assist''}. Il primo esempio (\ref{lst:ImageJ2}) è quello consigliato al momento ed è la via preferibile, mentre il secondo esempio (\ref{lst:ImageJ1} e \ref{lst:ImageJ1Config}) è la versione Legacy che si può usare senza temere ma non permette di sfruttare le ultime features.
+\noindent Si può scegliere di usare ImageJ2 o ImageJ 1.x, il quale viene tradotto automaticamente tramite un componente interno chiamato \textit{``Java Assist''}. Il primo esempio (\ref{lst:ImageJ2}) è quello consigliato al momento ed è la via preferibile, mentre il secondo esempio (\ref{lst:ImageJ1} e~\ref{lst:ImageJ1Config}) è la versione Legacy che si può usare senza temere ma non permette di sfruttare le ultime features.
+
 
 \begin{lstlisting}[language=Java,caption={Esempio semplice di un plugin Fiji in cui si fa uso di ImageJ2},label={lst:ImageJ2}]
-package hello;
-
-import org.scijava.command.Command;
-import net.imagej.ImageJ;
-
-@Plugin(type = Command.class)
-public class HelloWorld implements Command {
-	/**
-	 * Main method is actually used only for debugging
-	 **/
-    public static void main(final String... args) {
-        final ImageJ ij = new ImageJ();
-        ij.launch(args);
-        ij.command().run(HelloWorld.class, true);
+    package hello;
+    
+    import org.scijava.command.Command;
+    import net.imagej.ImageJ;
+    
+    @Plugin(type = Command.class)
+    public class HelloWorld implements Command {
+        /**
+            * Main method is actually used only for debugging
+            **/
+        public static void main(final String... args) {
+            final ImageJ ij = new ImageJ();
+            ij.launch(args);
+            ij.command().run(HelloWorld.class, true);
+        }
+        @Override
+        public void run() {
+            // ...
+        }
     }
-    @Override
-    public void run() {
-    	// ...
-    }
-}
 \end{lstlisting}
-
 
 \begin{lstlisting}[language=Java,caption={Esempio semplice di un plugin Fiji in cui viene utilizzato ImageJ 1.x}, label={lst:ImageJ1}]
 package hello;
