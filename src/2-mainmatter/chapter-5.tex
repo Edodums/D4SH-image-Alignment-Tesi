@@ -71,12 +71,12 @@ A questo scopo, occorre avere una distribuzione Java installata sul proprio sist
 \centering
 \begin{tikzpicture}[node distance=2.6cm]
     \node(start)[startstop] {bottone "AUTO ALIGN IMAGES"};
-    \node(in1)[io, below of=start] {Avvio della procedura di allineamento automatico tramite pressione nella GUI dell’apposito bottone};
+    \node(in1)[io, below of=start, text width=7cm] {Avvio della procedura di allineamento automatico tramite pressione nella GUI dell’apposito bottone};
     \node(proc1) [process, below of=in1] {Attivazione del thread di allineamento automatico};
     \node(proc2) [process, below of=proc1] {Init};
     \node(proc3) [process, below of=proc2] {Align};
     \node(proc4) [process, below of=proc3] {Build};
-    \node(out1)[io, below of=proc4] {La finestra con i risultati di allineamento viene mostrata};
+    \node(out1)[io, below of=proc4, text width=8cm] {La finestra con i risultati di allineamento viene mostrata};
     \node(stop)[startstop, below of=out1] {Stop};
 
     \draw [arrow] (start) -- (in1);
