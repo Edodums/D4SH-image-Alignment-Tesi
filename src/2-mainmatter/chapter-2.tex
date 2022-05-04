@@ -50,7 +50,7 @@ L'obiettivo principale di Fiji è migliorare l'esperienza utente dei ricercatori
 \noindent Prima di tutto si deve creare un progetto Java con un IDE a piacimento (\textit{``IntellJ IDEA''} o \textit{``Eclipse''} ad esempio) e creare un file pom.xml all'interno della radice del progetto. Per vedere un esempio pratico di questo osservare \textit{UnibosDS4H/DS4H} oppure \textit{imagej/example-imagej2-command}.
 
 \begin{listing}[H]
-\begin{minted}{xml}
+\begin{minted}[autogobble]{xml}
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 ...
@@ -85,7 +85,7 @@ L'obiettivo principale di Fiji è migliorare l'esperienza utente dei ricercatori
 \noindent Si può scegliere di usare ImageJ2 o ImageJ 1.x, il quale viene tradotto automaticamente tramite un componente interno chiamato \textit{``Java Assist''}. Il primo esempio (\Cref{lst:ImageJ2}) è quello consigliato al momento ed è la via preferibile, mentre il secondo esempio (\Cref{lst:ImageJ1} e~\Cref{lst:ImageJ1Config}) è la versione Legacy che si può usare senza temere ma non permette di sfruttare le ultime features.
 
 \begin{listing}[H]
-\begin{minted}{java}
+\begin{minted}[autogobble]{java}
 package hello;
 
 import org.scijava.command.Command;
@@ -111,7 +111,7 @@ public class HelloWorld implements Command {
 \end{listing}
     
 \begin{listing}[H]
-\begin{minted}{java}
+\begin{minted}[autogobble]{java}
 package hello;
 
 import ij.IJ;
@@ -128,7 +128,7 @@ public class HelloWorld implements PlugIn {
 \end{listing}
 
 \begin{listing}[H]
-\begin{minted}{text}
+\begin{minted}[autogobble]{text}
 	Plugins>Hello, "Hello World", hello.HelloWorld
 \end{minted}
 \caption{Esempio di file plugins.config obbligatorio nel caso dell'uso di ImageJ 1.x} \label{lst:ImageJ1Config}
@@ -156,7 +156,7 @@ public class HelloWorld implements PlugIn {
 \noindent All'interno del file pom.xml dev'essere presente una parte di codice per eseguire il processo di creazione del file JAR, una di queste permette di includere agli assets \Cref{lst:build}.
 
 \begin{listing}[H]
-\begin{minted}{xml}
+\begin{minted}[autogobble]{xml}
 <build>
 	<resources>
         <resource>
@@ -175,7 +175,7 @@ public class HelloWorld implements PlugIn {
 \textbf{HOME/.m2}, un file chiamato \textbf{settings.xml} come mostrato in \Cref{lst:scijavadir}
 
 \begin{listing}[H]
-\begin{minted}{xml}
+\begin{minted}[autogobble]{xml}
 <settings>
     <profiles>
         <profile>
@@ -207,7 +207,7 @@ public class HelloWorld implements PlugIn {
 \noindent L'ultima modalità è quella di digitare i comandi specifici direttamente dal terminale, ad esempio \Cref{lst:mvn}:
 
 \begin{listing}[H]
-\begin{minted}{bash}
+\begin{minted}[autogobble]{bash}
     mvn clean & mvn compile & mvn install
 \end{minted}
 \caption{Esempio per pulire, compilare e creare il file JAR}\label{lst:mvn}
