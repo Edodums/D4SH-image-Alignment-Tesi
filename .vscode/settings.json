@@ -1,5 +1,6 @@
 {
   "files.associations": {"*.czrc": "json"},
+  "cSpell.language": "en,it",
   "latex-workshop.chktex.delay": 1000,
   "latex-workshop.chktex.enabled": true,
   "latex-workshop.chktex.run": "onType",
@@ -35,5 +36,11 @@
   "latex-workshop.view.pdf.viewer": "tab",
   "latex-workshop.latex.magic.args": [
     "%DOC%"
+  ],
+  "cSpell.words": [
+    "convoluzione",
+    "interoperabile",
+    "multipiattaforma",
+    "retrocompatibilità"
   ]
 }
