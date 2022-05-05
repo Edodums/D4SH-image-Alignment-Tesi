@@ -14,7 +14,7 @@
   a4paper,                % formato di pagina A4
   12pt,                   % corpo del testo a 12pt
   % la dimensione 12pt automaticamente imposta \footnotesize a 10pt
-  oneside,                % (oneside|twoside) documento a singola o doppia facciata,
+  twoside,                % (oneside|twoside) documento a singola o doppia facciata,
   openright,              % (openany|openright) fa cominciare un capitolo nella successiva pagina a disposizione o sempre in una pagina destra
   % twocolumn,            % dà a LaTeX le istruzioni per comporre l'intero documento su due colonne
   titlepage,              % (titlepage|notitlepage) se dopo il titolo del documento debbaavere  inizio  una  nuova  pagina
@@ -231,8 +231,6 @@
     \addtocounter{page}{-1}%
     \newpage}
 
-    
-
 \begin{document}
   \frontmatter{}
   \pagenumbering{Roman}
@@ -245,11 +243,8 @@
   \setcounter{page}{1}
   \Crefname{listing}{Codice}{Codice}
 
-  \afterpage{\blankpage}
   \input{src/2-mainmatter/keywords.tex}
-  \afterpage{\blankpage}
   \input{src/2-mainmatter/abstract.tex}
-  \afterpage{\blankpage}
 
   \tableofcontents
   \input{src/2-mainmatter/introduzione.tex}
